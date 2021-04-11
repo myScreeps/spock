@@ -1,0 +1,68 @@
+Screeps in TypeScript!
+Overview:
+This guide will show you how to setup your Screeps code using Visual Studio (or VS Code) & TypeScript! 
+The guide is based on the typescript-starter package available at https://github.com/screepers/screeps-typescript-starter
+For those that aren't aware, TypeScript is a strict syntactical superset of JavaScript developed by Microsoft that adds optional static typing.
+        Advantages:
+            - Intellisense for Screeps API
+            - Code within visual studio, the most popular IDE for .NET
+            - Leverage type-safety, the main reason TS exists.
+            - Static typing
+            
+Getting this setup properly requires several steps to be completed in order. Doing these things out of order is unrecommended and may cause problems.
+For purposes of this guide, I'll be referring the NPM console within Visual Studio (Tools -> Nuget Package Manager -> Package Manager Console) as your terminal. If you're using VS Code, the terminal can be accessed from "View" or by pressing Ctrl + `
+0. Download and install Visual Studio Community 2017 or the latest version from this link: https://visualstudio.microsoft.com/downloads/ (Or Visual Studio Code, if that's your preference)
+    
+1. Download and install Node.JS (>=8.0.0) from this link: https://nodejs.org/en/download/
+    - if you already have Node.JS installed, you can confirm you have a valid version by running "node -v" at the terminal
+    - as of the time of this writing, 8.11.3 is the most up-to-date version.
+2. Download and Install TypeScript for Visual Studio 2017 from this link: https://marketplace.visualstudio.com/items?itemName=TypeScriptTeam.typescript-272-vs2017
+    - as of the time of this writing, 2.7.2 is the most up-to-date version. 
+3. Download the typescript starter package from this link: https://github.com/screepers/screeps-typescript-starter/archive/master.zip and extract it to a folder on your hard drive (I use C:\Screeps)
+    - I will be referring to the directory you created ("C:\Screeps") as the "base screeps code directory" for the rest of these steps.
+    - You need remove the 'screeps-typescript-starter-master' folder, without removing any of the files within the folder - copy everything inside that folder into your base screeps code directory.
+    - To verify you've done this correct, you should have a 'docs' and 'src' folder, as well as several files in your base screeps code directory, and no 'screeps-typescript-starter-master' directory.
+4. Open Visual Studio, create a new Project, and under "Other Project Types", select Blank Solution. 
+    4a. Name your solution, and change its location to where you extracted the starter package before clicking OK!
+    
+    4b. Close Visual Studio. Navigate to your screeps code directory (in windows explorer) and notice a new folder inside which contains your solution file.
+        - Move the .sln file out of that directory ("C:\Screeps\SolutionName\SolutionName.sln") into the "src" folder of your base screeps code directory ("C:\Screeps\src\SolutionName.sln")
+        - Delete the now empty "SolutionName" directory.
+         This makes life easier moving forward. Open your moved solution from its new location in "src".
+    4c. This step is unnecessary if you're using VS Code.
+        
+5. Let's update NPM to the latest version to avoid any compatibility problems. Run the following command in your terminal: "npm install npm@latest -g"
+    - as of the time of this writing, 6.2.0 is the most up-to-date version.
+6. You will also be using Rollup CLI in order to compile your typescript and transpile it into JavaScript for use in Screeps. Install it with "npm install -g rollup" at the terminal.
+    - as of the time of this writing, 0.63.4 is the most up-to-date version.
+7. Let's go ahead and install the type definitions (@types/screeps) - run "npm install --save @types/screeps" at your terminal.
+8. Install the required packages and TS declaration files with "npm install" at your terminal.
+    -This assumes you have finished steps 1-5 in the order defined. Your NPM console should now be pointed to the base directory of your screeps code. This must be the case before running this command!
+9. We're almost finished! We need to create a simple script that compiles our scripts and moves the output js scripts to our screeps code folder.
+    9a. Create a file in your base screeps code directory called "go.cmd"
+    9b. Edit the file with your favorite text editor (I use Notepad++) and paste in the following commands:
+        rollup -c
+        robocopy /MIR "%~dp0dist" "C:\Users\%USERNAME%\AppData\Local\Screeps\scripts\127_0_0_1___21025\default"
+    9c. Ensure that the first path points to a "dist" folder in your base screeps code directory.
+    9d. Ensure that the second path points to the scripts folder you wish to uplad this code to (the above command is configured for a private server.)
+    
+10. Run your cmd script once to ensure everything was setup correctly. If so, a "dist" folder will be created in your base screeps code directory, which will contain some .js files.
+    -main.js - This contains your transpiled TypeScript script
+    -main.js.map.js - This file is used for error handling, so that errors in main.js get routed to the correct code in your TypeScript solution.
+    
+11. We're there! Now we just need to set up VS folders properly to edit our typescript files.
+    - Point of note: Folders in your VS solution explorer DO NOT map to folders on your hard drive. They are purely orginizational. You can use these to organize your code as it becomes more complex.
+    11a. In your VS Solution Explorer, right click on the solution, navigate to Add, and click "Add new Solution Folder"
+        - name the folder whatever you want, we'll use "main" for now, since all I expect this folder to contain is my main.ts
+        - this is how you'd organize your code, ideally.
+    11b. Right click on your new solution folder, navigate to Add, and click "Existing Item"
+        
+    11c. Navigate to the "src" folder in your base screeps code directory, in which you'll see two items that you can add (separately) - select one and click Add:
+        - main.ts
+        - types.d.ts
+12. To compile your code from within VS (convenience ftw), just run "./go" from your terminal.
+    - Note: depending on your state, NPM might be pointed to your "src" directory instead of your base. If it can't find this script, simply navigate to your base screeps code directory.
+NOTE: Adding new files to your solution is easy as well, with a note:
+    - There is no built in TypeScript document type in visual studio (that I could find)
+    - Make sure the filename you are using to create the new document ends with .ts ("creepFactory.ts") and you'll be fine.
+    - As you add files to your solution folders, they will automatically be placed in your base 'src' directory . You don't need to synchronize the folder structure to the solution folders unless really you want to.

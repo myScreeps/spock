@@ -1,0 +1,290 @@
+${selectedText}
+
+
+Steam Key, 0R525-E56WB-FVL6H
+
+
+
+docker run --env STEAM_KEY=7D8D2C38AF02AD9B98784DE663C31681 --name MyScreepsServer -v screeps:\screeps -p 21025:21025 screepers/screeps-launcher
+docker container rm 07e57c99bf31fac98974f83373c5fefbe062b4fc6d1c3072099092f085511e84
+
+
+{"E43S3":
+{"name":"E43S3","energyAvailable":0,"energyCapacityAvailable":0,"visual":{"roomName":"E43S3"}},"E44S2":{"name":"E44S2","energyAvailable":300,"energyCapacityAvailable":1750,"visual":{"roomName":"E44S2"}},"E44S3":{"name":"E44S3","energyAvailable":2497,"energyCapacityAvailable":5300,"visual":{"roomName":"E44S3"}},"E45S2":{"name":"E45S2","energyAvailable":600,"energyCapacityAvailable":2300,"visual":{"roomName":"E45S2"}},"E45S3":{"name":"E45S3","energyAvailable":0,"energyCapacityAvailable":0,"visual":{"roomName":"E45S3"}}}
+
+
+ine:18] E45S2 upgrader _10187149 controller is [{"room":{"name":"E45S3","energyAvailable":0,"energyCapacityAvailable":0,"visual":{"roomName":"E45S3"}},"pos":{"x":13,"y":24,"roomName":"E45S3"},"id":"5bbcafa89099fc012e63af93","reservation":{"username":"nrnoble","ticksToEnd":60},"level":0,"safeModeAvailable":0,"sign":{"username":"wtfrank","text":"Non-coding players unwelcome outside shard0 - expect summary execution 🤖","time":9036020,"datetime":"2019-07-28T11:36:06.989Z"},"isPowerEnabled":false,"structureType":"controller"}]
+
+Game.spawns['Spawn1'].room.controller.activateSafeMode();
+
+C:\Users\Neal>docker run --env STEAM_KEY=7D8D2C38AF02AD9B98784DE663C31681 --name MyScreepsServer -v screeps:\screeps -p 21025:21025 screepers/screeps-launcher
+
+var myRoomSource = Game.getObjectById("5bbcafa89099fc012e63af8f")
+myTestPos = new RoomPosition(42, 7, 'E45S2');
+
+controller {"room":{"name":"E43S3","energyAvailable":0,"energyCapacityAvailable":0,"visual":{"roomName":"E43S3"}},"pos":{"x":17,"y":27,"roomName":"E43S3"},"id":"5bbcaf869099fc012e63ab6c","reservation":{"username":"nrnoble","ticksToEnd":3149},"level":0,"safeModeAvailable":0,"isPowerEnabled":false,"structureType":"controller"}
+[5:11:27 PM][shard3][Main        line:47] controller {"room":{"name":"E43S3","energyAvailable":0,"energyCapacityAvailable":0,"visual":{"roomName":"E43S3"}},"pos":{"x":17,"y":27,"roomName":"E43S3"},"id":"5bbcaf869099fc012e63ab6c","reservation":{"username":"nrnoble","ticksToEnd":3148},"level":0,"safeModeAvailable":0,"isPowerEnabled":false,"structureType":"controller"}
+
+
+ Game.spawns.Spawn1.memory.claimRoom = "W2N1"  
+ Game.spawns.Spawn1.memory.claimRoom = "W2N1"
+
+
+ Game.spawns.Spawn1.memory.minimumNumberOfHarvesters = 3;
+ Game.spawns.Spawn1.memory.minimumNumberOfUpgraders = 3;
+ Game.spawns.Spawn1.memory.minimumNumberOfBuilders = 1;
+ Game.spawns.Spawn1.memory.minimumNumberOfRepairers = 1;
+ Game.spawns.Spawn1.memory.minimumNumberOfWallRepairers = 1;
+ Game.spawns.Spawn1.memory.minimumNumberOfLongDistanceHarvestersW2N1 = 4;
+ Game.spawns.Spawn1.memory.minimumNumberOfLongDistanceHarvestersW3N1 = 0;
+
+Game.spawns.Spawn1.memory.minLDE45S2 = 0;
+Game.spawns.Spawn1.memory.minLDE44S2 = 0;
+Game.spawns.Spawn1.memory.minHarvesters	= 3;
+Game.spawns.Spawn1.memory.minLorries = 0;
+Game.spawns.Spawn1.memory.minHarvesters = 0;
+Game.spawns.Spawn1.memory.minBuilders = 1;
+Game.spawns.Spawn1.memory.minWallRepairers = 1;
+Game.spawns.Spawn1.memory.minRepairers = 1;
+Game.spawns.Spawn1.memory.debug	= false;
+Game.spawns.Spawn1.memory.debuglevel = 1;
+Game.spawns.Spawn1.memory.E44S3 = 1;
+Game.spawns.Spawn1.memory.count = 0;
+Game.spawns.Spawn1.memory.HarverstersCount = 0;
+Game.spawns.Spawn1.memory.upgradersCount = 0;
+Game.spawns.Spawn1.memory.repairsCount = 0;
+Game.spawns.Spawn1.memory.buildersCount	=	0;
+Game.spawns.Spawn1.memory.wallRepairsCount = 0;
+Game.spawns.Spawn1.memory.minerCount = 0;
+Game.spawns.Spawn1.memory.lorrysCount =	0;
+Game.spawns.Spawn1.memory.wallRepairersCount = 0;
+Game.spawns.Spawn1.memory.minLongDistanceBuildersE44S2 = 0;
+Game.spawns.Spawn1.memory.testCreepCount = 0;
+Game.spawns.Spawn1.memory.minLDE43S3 = 0;
+Game.spawns.Spawn1.memory.foo = "test";
+
+
+
+
+Game.creeps['Jack'].memory.target ='W2N1'
+var energy = Game.spawns.Spawn1.room.energyCapacityAvailable;
+Game.creeps.John.memory
+
+console.log(JSON.stringify(<myVariable>))
+
+
+
+wikipedia
+
+
+module.exports = function () {
+   var log = Memory.log;
+   if(log === null || log === undefined){
+       log = Memory.log = [];
+   }
+
+   var parts = ["["+Game.time+"]"];
+   for(var i in arguments){
+       parts.push(arguments[i]);
+   }
+   var msg = parts.join(" ");
+   log.push(msg);
+   if(log.length > 10){
+       log.shift();
+   }
+}
+
+
+OK: 0,
+    ERR_NOT_OWNER: -1,
+    ERR_NO_PATH: -2,
+    ERR_NAME_EXISTS: -3,
+    ERR_BUSY: -4,
+    ERR_NOT_FOUND: -5,
+    ERR_NOT_ENOUGH_ENERGY: -6,
+    ERR_NOT_ENOUGH_RESOURCES: -6,
+    ERR_INVALID_TARGET: -7,
+    ERR_FULL: -8,
+    ERR_NOT_IN_RANGE: -9,
+    ERR_INVALID_ARGS: -10,
+    ERR_TIRED: -11,
+    ERR_NO_BODYPART: -12,
+    ERR_NOT_ENOUGH_EXTENSIONS: -6,
+    ERR_RCL_NOT_ENOUGH: -14,
+    ERR_GCL_NOT_ENOUGH: -15,
+
+[*************************************************************************]
+    //Logic 1
+var before = Game.cpu.getUsed();
+//****Test Script/Process
+var after = Game.cpu.getUsed();
+console.log('CPU USED ON OPERATION 1: '+(after-before));
+var logicOne = (after-before);
+//Logic 2
+var before = Game.cpu.getUsed();
+// *** 2nd test script / process
+var after = Game.cpu.getUsed();
+console.log('CPU USED ON OPERATION2: '+(after-before));
+var logicTwo = (after-before);
+// Determine a winner:
+if(logicOne < logicTwo){
+    console.log('LOGIC ONE WINS BY: '+(logicTwo-logicOne));
+} else{
+    console.log('LOGIC TWO WINS BY: '+(logicOne-logicTwo));
+}
+[*************************************************************************]
+
+So output = (Something) => Console.log('This thing is: '+Something); (edited) 
+
+
+global.measure = function( fn, ...args ) {
+    const start = Game.cpu.getUsed();
+    fn.apply(null, args);
+    return _.round(Game.cpu.getUsed() - start, 4); // Precision level
+}
+And from command line:
+measure( () => /* call something, time will be printed to console */)
+
+//////////////////////////////////////////////////
+
+{
+	// Place your snippets for javascript here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	"Print to console": {
+		"prefix": "my.log",
+		"body": [
+			"console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' + creep.room.name + ' ' + creep.name + ' $1 ');"
+			],
+		"description": "Log output to console"
+
+},
+
+
+"Print to console2": {
+	"prefix": "my.log2",
+	"body": [
+		"console.log('[' + fileName + 'line:' + util.LineNumber() + '] $1 ');"
+		],
+	"description": "Log output to console"
+
+},
+
+
+"Print to consoleRed": {
+	"prefix": "my.LogInred",
+	"body": [
+		"console.log('<font color = \"red\">[' + fileName + 'line:' + util.LineNumber() + '] $1 </>');"
+		],
+	"description": "Log output to console in red"
+
+},
+
+"Print to consoleYellow": {
+	"prefix": "my.LogInYellow",
+	"body": [
+		"console.log('<font color = \"yellow\">[' + fileName + 'line:' + util.LineNumber() + '] $1 is ' + $1 +'</>');"
+		],
+	"description": "Log output to console in yelow"
+
+},
+
+
+
+"module template": {
+	"prefix": "my.module",
+	"body": [
+		" var util = require('Util'); ", 
+		"var roleUpgrader = require('role.upgrader');",
+		"var roleRepairer = require('role.repairer');",
+		"var roleBuilder = require('role.builder');",
+		" ",
+		" ",
+
+		"var fileName = 'E43S3   ';",
+		" ",
+		" ",
+		"module.exports = {",
+		"\trun: function () {",
+		" ",
+		" ",
+		
+		" ",
+		"\t}",
+		"};"
+		],
+	"description": "basic module template "
+
+	},
+
+	
+	"Wrap selected text": {
+		"prefix": "my.wrapText",
+		"body": [
+			"console.log('[' + fileName + 'line:' + util.LineNumber() + '] ${CLIPBOARD} is ' + ${CLIPBOARD});"
+			],
+		"description": "Log output to console"
+	
+	},
+	
+	
+	"try-catch wrap": {
+		"prefix": "my.tryCatch",
+		"body": [
+			"try {",
+			"${CLIPBOARD}",
+			"}", 
+			"catch (e) {",
+				"\tconsole.log('[' + fileName + 'line:' + util.LineNumber() + ']  trapped error ' + e );",
+			"}"
+			],
+		"description": "Try catch wrapper contents from clipboard"
+	
+	},
+	
+	"Marque comment": {
+		"prefix": "my.Marque",
+		"body": [
+			"// ********************************************************************************//;",
+			"// ${CLIPBOARD}",
+			"// ********************************************************************************//;", 
+
+			],
+		"description": "create a code comment as a Marque"
+	
+	},
+	
+	"Console Marque": {
+		"prefix": "my.CommentMarque",
+		"body": [
+			"console.log('[' + fileName + 'line:' + util.LineNumber() + ']  ');",
+			"console.log('[' + fileName + 'line:' + util.LineNumber() + '] ********************************************************************************');",
+			"${CLIPBOARD}",
+			"console.log('[' + fileName + 'line:' + util.LineNumber() + '] ********************************************************************************');", 
+			"console.log('[' + fileName + 'line:' + util.LineNumber() + ']  ');",
+
+			],
+		"description": "Marque for the console"
+	
+	}
+	
+	
+
+}
+
+
+
+        
+
+   

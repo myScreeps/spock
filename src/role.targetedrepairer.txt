@@ -1,0 +1,93 @@
+var roleBuilder = require('role.builder');
+var roleBuilder = require('role.builder');
+var util = require('Util'); 
+var fileName = "t-repairer ";
+
+module.exports = {
+    // a function to run the logic for this role
+    run: function (creep) {
+
+        // check to see if engery == 0 and ttl < 75
+        var status = util.SelfSecide(creep);
+
+        // if resouces are nearby, attempt to pickup.
+        util.pickupResources(creep,0);
+
+ 
+
+
+        // if creep is trying to repair something but has no energy left
+        if (creep.memory.working == true && creep.carry.energy == 0) {
+            // switch state
+            creep.memory.working = false;
+        }
+        // if creep is harvesting energy but is full
+        else if (creep.memory.working == false && creep.carry.energy == creep.carryCapacity) {
+            // switch state
+            creep.memory.working = true;
+        }
+
+        // if creep is supposed to repair something
+        if (creep.memory.working == true) {
+            // find closest structure with less than max hits
+            // Exclude walls because they have way too many max hits and would keep
+            // our repairers busy forever. We have to find a solution for that later.
+            var structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                // the second argument for findClosestByPath is an object which takes
+                // a property called filter which can be a function
+                // we use the arrow operator to define it
+                filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL
+            });
+
+            // if we find one
+            if (structure != undefined && structure.structureType == STRUCTURE_ROAD &&  structure.hitsMax == 750000 && structure.hits < 725000) {
+                // try to repair it, if it is out of range
+                var repairStatus = creep.repair(structure);
+                console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' +  creep.name + ' repair status is ' + repairStatus);
+                if (repairStatus == ERR_NOT_IN_RANGE) {
+                    // move towards it
+                    console.log('[' + fileName + 'line:' + util.LineNumber() + '] moving towards a road tunnel ');
+                    creep.moveTo(structure, { visualizePathStyle: { stroke: '#ffaa00' } });
+                }
+            }
+            else  if (structure != undefined) {
+                // try to repair it, if it is out of range
+             //   console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' +  creep.name + ' structure type is ' + structure.structureType);
+                if (creep.repair(structure) == ERR_NOT_IN_RANGE) {
+                    // move towards it
+                    creep.moveTo(structure, { visualizePathStyle: { stroke: '#ffaa00' } });
+                }
+            }
+            // can't fine one
+            else {
+                // look for construction sites
+                roleBuilder.run(creep);
+            }
+        }
+        // if creep is supposed to get energy
+        else {
+            // find closest container // s.structureType == STRUCTURE_CONTAINER || 
+            let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                filter: s => (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE) &&
+                    s.store[RESOURCE_ENERGY] > 0
+            });
+            // if one was found
+            if (container != undefined) {
+                // try to withdraw energy, if the container is not in range
+                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    // move towards it
+                    creep.moveTo(container, { visualizePathStyle: { stroke: '#ffaa00' } });
+                }
+            }
+            else {
+                // find closest source
+                var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+                // try to harvest energy, if the source is not in range
+                if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                    // move towards it
+                    creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
+                }
+            }
+        }
+    }
+};
