@@ -417,7 +417,6 @@ module.exports = {
 
         //     var Spawn1 = spawns[0];
         //     spawns[0].memory.spawnMiner = false;
-
         // }
 
         //#Miner
@@ -476,43 +475,22 @@ module.exports = {
             const currentStoredEngery = _.sum(container.store);
 
 
-            //            if (Game.time % rampartRepairDelay == 0 && creep.pos.isEqualTo(new RoomPosition (5,16,"W8N36"))) {
-            // if (Game.time % rampartRepairDelay == 0) {
-            //     //  console.log('<font color = "green">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] miner is repairing ramparts is ' + '</>');
-            //     //     util.repairRamparts(creep, maxRampartSize, 2, false, "yellow");
-            // }
-
-
-
-            // if (Game.time % 3 == 0) {
-            //     util.buildIt(creep, debug = false);
-            // }
-
-
-            // if (creep.room.name == "W8N36") {
-            //     var linkNearSource = util.findNearestStructureByType(creep, STRUCTURE_LINK, 3);
-            //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] linkNearSource: ' + linkNearSource + '</>');
-            //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] Game.time: ' + Game.time + '</>');
-
-            // }
-            // if (creep.id == creepId) {
-            //     // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] creep.pos.isNearTo(Game.flags.Link2_E26N3.pos): ' + creep.pos.isNearTo(Game.flags.Link2_E26N3.pos) + '</>');
-            //     // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] Game.time: ' + Game.time + '</>');
-            //     // var linkNearSource = util.findNearestStructureByType(creep, STRUCTURE_LINK, 4);
-            //     // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] linkNearSource: ' + linkNearSource + '</>');
-
-            // }
 
             // var freeCap = Game.spawns.Spawn2.store.getFreeCapacity(RESOURCE_ENERGY);
             // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] freeCap is ' + freeCap + '</>');
 
             if (creep.pos.isNearTo(Game.spawns.Spawn2.pos)
-                && creep.store.getFreeCapacity() == 0
+                && creep.store.getFreeCapacity() >= 0
                 && Game.spawns.Spawn2.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
                 creep.transfer(Game.spawns.Spawn2, RESOURCE_ENERGY);
             }
 
 
+            if (creep.pos.isNearTo(Game.getObjectById("60091a986bc6db40323e0d1e"))
+                && creep.store.getFreeCapacity() >= 0
+                && Game.getObjectById("60091a986bc6db40323e0d1e").store.getFreeCapacity(RESOURCE_ENERGY) >= 0) {
+                creep.transfer(Game.spawns.Spawn2, RESOURCE_ENERGY);
+            }
 
             if (Game.time % 2 == 0) {
                 if (creep.room.name == "E26N3"

@@ -337,7 +337,15 @@ module.exports = function () {
             console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] this.pos.isEqualTo(this.memory.parkItPos) is ' + this.pos.isEqualTo(this.memory.parkItPos) + '</>');
 
             var moveStatus = this.travelTo(this.memory.parkItPos);
-            return false;
+            return false; if (creep.pos.isNearTo(Game.spawns.Spawn2.pos)
+                && creep.store.getFreeCapacity() > 0
+                && Game.spawns.Spawn2.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+                creep.transfer(Game.spawns.Spawn2, RESOURCE_ENERGY);
+            } if (creep.pos.isNearTo(Game.spawns.Spawn2.pos)
+                && creep.store.getFreeCapacity() > 0
+                && Game.spawns.Spawn2.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+                creep.transfer(Game.spawns.Spawn2, RESOURCE_ENERGY);
+            }
         }
     }
 
