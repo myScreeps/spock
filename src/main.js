@@ -13,6 +13,9 @@
 // Room E26N3 Sat Feburary 2/27/21 6:00 PM 5.45 million Tick 25922387
 // Room E26N3 Sat Feburary 2/28/21 6:31 PM 6:30 PM 6 million Tick 25955143
 
+// Room E25N3 Claimed Friday April 16th 2021 11:48pm
+
+
 // test
 
 /* #endregion */// import modules
@@ -64,6 +67,8 @@ var roleBob = require('role.bob');
 var roleBobA = require('role.bobAttack');
 //const { filter } = require('lodash');
 var mainInit = require('main.init');
+var roleMinerSource2 = require('role.minerSource2');
+
 
 
 
@@ -147,21 +152,20 @@ var parameterflags = _.filter(flags, s => s.startsWith('Parameter'));
 //***************************************** */
 // #GameLoop         GAME LOOP
 //***************************************** */
-
-
 module.exports.loop = function () {
-    // console.log("test1");
-    //  return;
+
 
     // if (Memory.pauseAll == true) {
     //     return;
     // }
 
-    // if (Game.time % 250 == 0) {
-    //     Game.spawns.Spawn3.createBob();
-    // }
+
 
     /* #region TestCode */
+
+
+
+
     // var locationPoint = Memory.locationPoint;
     // var flag_Point = Game.flags.Point.pos
     // locationPoint = [flag_Point.x, flag_Point.y]
@@ -238,12 +242,65 @@ module.exports.loop = function () {
     // loop through rooms
     //************************************** */
     for (let roomName in Game.rooms) {
+
         var room = Game.rooms[roomName];
+        if (room.name == "E25N3") {
+
+            //            var invaderCreep = Game.getObjectById("6077383c28cc5f68e90fc2ac");
+
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] Game.time is ' + Game.time + '</>');
+            //var invaders = room.find(FIND_HOSTILE_CREEPS)
+
+
+            //console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] JSON.stringify(invaderCore.effects[0]) is ' + JSON.stringify(invaderCore.effects[0]) + '</>');
+            var invaderCores = room.find(FIND_STRUCTURES, { filter: s => s.structureType == "invaderCore" })
+            var numberOfinvaderCores = invaderCores.length;
+            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] numberOfinvaderCores is ' + numberOfinvaderCores + '</>');
+            if (numberOfinvaderCores > 0) {
+                var invaderCore = invaderCores[0];
+                var ticksRemaining = invaderCore.effects.ticksRemaining;
+                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] invaderCore.effects is ' + invaderCore.effects[0].ticksRemaining + '</>');
+            }
+        }
+
         if (room.name == "E26N3") {
 
+            for (let index = 0; index < roomParameterPoints.length - 1; index++) {
+                const parameterPoint = roomParameterPoints[index];
+                var pos1 = new RoomPosition(roomParameterPoints[index][0], roomParameterPoints[index][1], room.name);
+                var pos2 = new RoomPosition(roomParameterPoints[index + 1][0], roomParameterPoints[index + 1][1], room.name);
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(pos1) is ' + JSON.stringify(pos1) + '</>');
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(pos2) is ' + JSON.stringify(pos2) + '</>');
 
+                new RoomVisual(room.name).line(pos1, pos2,
+                    { color: '#FFFF00', lineStyle: 'dotted' }
+                );
+            }
+            roomParameterPoints = Memory.E26N3.roomParameter
 
+            var pos1 = new RoomPosition(roomParameterPoints[0][0], roomParameterPoints[0][1], room.name);
+            new RoomVisual(room.name).line(pos2, pos1,
+                { color: '#FFFF00', lineStyle: 'dotted' }
+            );
 
+            // var pos1 = new RoomPosition(6, 25, room.name);
+            // var pos2 = new RoomPosition(6, 35, room.name);
+            // Game.map.visual.line(pos1, pos2);
+            // new RoomVisual(room.name).line(pos1, pos2);
+            //Game.map.visual.circle(new RoomPosition(25, 14, 'E26N3'));
+            //   new RoomVisual(room.name).text("container2: " + container2.store[RESOURCE_ENERGY], 42, 20, { color: 'green', font: 0.6, align: 'left' });
+            //new RoomVisual(room.name).circle(new RoomPosition(25, 14, 'E26N3'));
+            //   { color: '#ff0000', lineStyle: 'dashed' });
+
+            var observer = room.find(FIND_MY_STRUCTURES, { filter: s => s.structureType == STRUCTURE_OBSERVER })[0]
+            var roomE25N3 = observer.observeRoom("E25N3");
+            //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] observer is ' + observer + '</>');
+
+            //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] roomE25N3 is ' + roomE25N3 + '</>');
+
+            // var invaders = roomE25N3.find(FIND_HOSTILE_CREEP, { filter: s => s.owner == "invader" })
+            // var numberOfInvaders = invaders.length
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] numberOfInvaders is ' + numberOfInvaders + '</>');
 
             // var tombstone = creep.pos.findClosestByRange(FIND_TOMBSTONES, { filter: s => s.store > 0 });
             var tombstone = room.find(FIND_TOMBSTONES)[0];
@@ -278,9 +335,9 @@ module.exports.loop = function () {
             myArray.push(2);
             myArray.push(3);
 
-            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] myArray.shift() is ' + myArray.shift() + '</>');
-            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] myArray.shift() is ' + myArray.shift() + '</>');
-            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] myArray.shift() is ' + myArray.shift() + '</>');
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] myArray.shift() is ' + myArray.shift() + '</>');
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] myArray.shift() is ' + myArray.shift() + '</>');
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] myArray.shift() is ' + myArray.shift() + '</>');
 
             var myMemSet2 = new Set(Memory.E26N3.tombstones);
             //  var tombstone = Game.rooms["E26N3"].pos.findClosestByRange(FIND_TOMBSTONES, { filter: s => _.sum(s.store) > 0 })
@@ -303,7 +360,7 @@ module.exports.loop = function () {
 
 
 
-            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] mydate.toLocaleTimeString(en-US, options)  is ' + mydate.toLocaleTimeString('en-US', options) + '</>');
+            //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] mydate.toLocaleTimeString(en-US, options)  is ' + mydate.toLocaleTimeString('en-US', options) + '</>');
 
 
             var tombstone = room.find(FIND_TOMBSTONES)[0]
@@ -435,10 +492,15 @@ module.exports.loop = function () {
 
 
 
+            // console.log('<font color = "orange">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] 1Memory.E26N3.roomVisual  is ' + Memory.E26N3.roomVisual + '</>');
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] 2Memory.E26N3.roomVisual  is ' + Memory.E26N3.roomVisual + '</>');
 
             // #roomVisual
-            {
+            //if (Memory.E26N3.roomVisual == true) {
+            if (true) {
                 //  var spawn = Game.spawns.Spawn1;
+
+                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] 3Memory.E26N3.roomVisual  is ' + Memory.E26N3.roomVisual + '</>');
                 new RoomVisual(room.name).text(Game.cpu.bucket, 2, 1, { color: 'green', font: 0.8 });
                 var container1 = Game.getObjectById("6003bbfaf44a12affc149d5c");
                 new RoomVisual(room.name).text("container1: " + container1.store[RESOURCE_ENERGY], 17, 17, { color: 'green', font: 0.6, align: 'left' });
@@ -459,17 +521,72 @@ module.exports.loop = function () {
 
                 //  var minerEnergy = spawn.memory.EnergyManagement.minerEnergy;
                 new RoomVisual(room.name).text("Game.time: " + Game.time, 26, 31, { color: 'green', font: 0.6, align: 'left' });
+                var timeRemaining = 27300060 - Game.time
+                new RoomVisual(room.name).text(" 27,300,060 - Game.time: " + timeRemaining, 26, 32, { color: 'green', font: 0.6, align: 'left' });
+
 
                 var storageEnergy = room.storage.store[RESOURCE_ENERGY];
                 new RoomVisual(room.name).text("storageEnergy: " + storageEnergy, 7, 14, { color: 'green', font: 0.6, align: 'left' });
 
                 new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
+                //  new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
 
             }
 
 
         }
 
+
+        if (room.name == "E25N3") {
+            var observer = room.find(FIND_MY_STRUCTURES, { filter: s => s.structureType == STRUCTURE_OBSERVER })[0]
+
+            var tombstone = room.find(FIND_TOMBSTONES)[0];
+
+
+
+
+
+
+            if (true) {
+                //  var spawn = Game.spawns.Spawn1;
+
+                //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] 3Memory.E26N3.roomVisual  is ' + Memory.E26N3.roomVisual + '</>');
+                new RoomVisual(room.name).text(Game.cpu.bucket, 2, 1, { color: 'green', font: 0.8 });
+                var container1 = Game.getObjectById("607aa27af913974828c07b7a");
+                new RoomVisual(room.name).text("container1: " + container1.store[RESOURCE_ENERGY], 42, 34, { color: 'green', font: 0.6, align: 'left' });
+
+                // var container2 = Game.getObjectById("6003cfd2773fb20d53bdc34f");
+                // new RoomVisual(room.name).text("container2: " + container2.store[RESOURCE_ENERGY], 42, 20, { color: 'green', font: 0.6, align: 'left' });
+
+
+                var source1 = Game.getObjectById("5bbcae639099fc012e638ec1");
+                new RoomVisual(room.name).text("Source1: " + source1.energy + " / " + source1.ticksToRegeneration, 42, 33, { color: 'green', font: 0.6, align: 'left' });
+
+
+                // var source2 = Game.getObjectById("5bbcae719099fc012e6390f2");
+                // new RoomVisual(room.name).text("Source2: " + source2.energy + " / " + source2.ticksToRegeneration, 42, 21, { color: 'green', font: 0.6, align: 'left' });
+
+                var roomController = Game.getObjectById("5bbcae639099fc012e638ec0");
+                new RoomVisual(room.name).text("Controller: " + util.numberWithCommas(roomController.progress) + " / " + util.numberWithCommas(roomController.progressTotal), 27, 19, { color: 'yellow', font: 0.6, align: 'left' });
+
+                //  var minerEnergy = spawn.memory.EnergyManagement.minerEnergy;
+                new RoomVisual(room.name).text("Game.time: " + Game.time, 26, 31, { color: 'green', font: 0.6, align: 'left' });
+                var timeRemaining = 27300060 - Game.time
+                //  new RoomVisual(room.name).text(" 27,300,060 - Game.time: " + timeRemaining, 26, 32, { color: 'green', font: 0.6, align: 'left' });
+
+
+                if (room.storage != undefined) {
+                    var storageEnergy = room.storage.store[RESOURCE_ENERGY];
+                    new RoomVisual(room.name).text("storageEnergy: " + storageEnergy, 7, 14, { color: 'green', font: 0.6, align: 'left' });
+                }
+
+                new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
+                //  new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
+
+            }
+
+
+        }
 
         //    console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] roomName is ' + roomName + '</>');
         //    console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room.name is ' + room.name + '</>');
@@ -768,6 +885,10 @@ module.exports.loop = function () {
         else if (creep.memory.role == 'miner') {
             //     console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' + creep.room.name + ' ' + creep.name + ' running miner ');
             roleMiner.run(creep);
+        }
+        else if (creep.memory.role == 'minerSource2') {
+            //     console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' + creep.room.name + ' ' + creep.name + ' running miner ');
+            roleMinerSource2.run(creep);
         }
         // if creep is lorry, call miner lorry
         else if (creep.memory.role == 'lorry') {
@@ -1364,6 +1485,17 @@ module.exports.loop = function () {
         var abc = true;
         //#miner
 
+
+        // Game.spawns.Spawn1.memory.createMiner = true;
+        //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + '] Game.spawns.Spawn1.memory.createMiner is ' + Game.spawns.Spawn1.memory.createMiner + '</>');
+
+        if (Game.spawns.Spawn1.memory.createMiner == true) {
+            name = Game.spawns.Spawn1.createMiner(Game.spawns.Spawn1, "5bbcae639099fc012e638ec1");
+            console.log('[' + fileName + 'line:' + util.LineNumber() + '] name is ' + name);
+
+        }
+
+
         //      console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + '] spawnMinor is ' + spawnMinor +'</>');
         if ((numberOfMiners == 1 || numberOfMiners == 0))
         // if (abc)
@@ -1832,8 +1964,9 @@ module.exports.loop = function () {
 
             }
             // if there is a claim order defined
-            //  console.log("[line " + util.LineNumber() + "] spawn.memory.claimRoom != undefined: " spawn.memory.claimRoom != undefined);
 
+            //  console.log("[line " + util.LineNumber() + "] spawn.memory.claimRoom != undefined: " spawn.memory.claimRoom != undefined);
+            //#createClaimer
             else if (spawn.memory.claimRoom != undefined) {
                 // try to spawn a claimer
                 console.log("[line " + util.LineNumber() + "] createClaimer");
