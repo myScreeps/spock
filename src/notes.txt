@@ -1,3 +1,7 @@
+
+60b86a7185a31871f0a8ee00 rampart link
+
+
 ${selectedText}
 
 
@@ -26,7 +30,7 @@ controller {"room":{"name":"E43S3","energyAvailable":0,"energyCapacityAvailable"
 [5:11:27 PM][shard3][Main        line:47] controller {"room":{"name":"E43S3","energyAvailable":0,"energyCapacityAvailable":0,"visual":{"roomName":"E43S3"}},"pos":{"x":17,"y":27,"roomName":"E43S3"},"id":"5bbcaf869099fc012e63ab6c","reservation":{"username":"nrnoble","ticksToEnd":3148},"level":0,"safeModeAvailable":0,"isPowerEnabled":false,"structureType":"controller"}
 
 
- Game.spawns.Spawn1.memory.claimRoom = "W2N1"  
+ Game.spawns.Spawn1.memory.claimRoom = "W2N1"
  Game.spawns.Spawn1.memory.claimRoom = "W2N1"
 
 
@@ -134,7 +138,7 @@ if(logicOne < logicTwo){
 }
 [*************************************************************************]
 
-So output = (Something) => Console.log('This thing is: '+Something); (edited) 
+So output = (Something) => Console.log('This thing is: '+Something); (edited)
 
 
 global.measure = function( fn, ...args ) {
@@ -148,9 +152,9 @@ measure( () => /* call something, time will be printed to console */)
 //////////////////////////////////////////////////
 
 {
-	// Place your snippets for javascript here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// Place your snippets for javascript here. Each snippet is defined under a snippet name and has a prefix, body and
 	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
 	// same ids are connected.
 	// Example:
 	// "Print to console": {
@@ -205,7 +209,7 @@ measure( () => /* call something, time will be printed to console */)
 "module template": {
 	"prefix": "my.module",
 	"body": [
-		" var util = require('Util'); ", 
+		" var util = require('Util'); ",
 		"var roleUpgrader = require('role.upgrader');",
 		"var roleRepairer = require('role.repairer');",
 		"var roleBuilder = require('role.builder');",
@@ -219,7 +223,7 @@ measure( () => /* call something, time will be printed to console */)
 		"\trun: function () {",
 		" ",
 		" ",
-		
+
 		" ",
 		"\t}",
 		"};"
@@ -228,63 +232,64 @@ measure( () => /* call something, time will be printed to console */)
 
 	},
 
-	
+
 	"Wrap selected text": {
 		"prefix": "my.wrapText",
 		"body": [
 			"console.log('[' + fileName + 'line:' + util.LineNumber() + '] ${CLIPBOARD} is ' + ${CLIPBOARD});"
 			],
 		"description": "Log output to console"
-	
+
 	},
-	
-	
+
+
 	"try-catch wrap": {
 		"prefix": "my.tryCatch",
 		"body": [
 			"try {",
 			"${CLIPBOARD}",
-			"}", 
+			"}",
 			"catch (e) {",
 				"\tconsole.log('[' + fileName + 'line:' + util.LineNumber() + ']  trapped error ' + e );",
 			"}"
 			],
 		"description": "Try catch wrapper contents from clipboard"
-	
+
 	},
-	
+
 	"Marque comment": {
 		"prefix": "my.Marque",
 		"body": [
 			"// ********************************************************************************//;",
 			"// ${CLIPBOARD}",
-			"// ********************************************************************************//;", 
+			"// ********************************************************************************//;",
 
 			],
 		"description": "create a code comment as a Marque"
-	
+
 	},
-	
+
 	"Console Marque": {
 		"prefix": "my.CommentMarque",
 		"body": [
 			"console.log('[' + fileName + 'line:' + util.LineNumber() + ']  ');",
 			"console.log('[' + fileName + 'line:' + util.LineNumber() + '] ********************************************************************************');",
 			"${CLIPBOARD}",
-			"console.log('[' + fileName + 'line:' + util.LineNumber() + '] ********************************************************************************');", 
+			"console.log('[' + fileName + 'line:' + util.LineNumber() + '] ********************************************************************************');",
 			"console.log('[' + fileName + 'line:' + util.LineNumber() + ']  ');",
 
 			],
 		"description": "Marque for the console"
-	
+
 	}
-	
-	
+
+
 
 }
 
 
 
-        
 
-   
+
+https://170.249.94.130 http://localhost:8080/(http://localhost:21025)/#!/room/shard0/W6N1
+http://170.249.94.130:8080/(http://170.249.94.130:21025)/#!/room/shard0/W6N1

@@ -9,8 +9,15 @@ module.exports = {
     // a function to run the logic for this role
     run: function (creep) {
         //  return;
-
         util.say("bob", creep, 300);
+        if (creep.memory.travelTargets == undefined) {
+            var flags = _.filter(flags, s => s.startsWith('T'));
+            flags.sort();
+            creep.memory.travelTarget = flags
+        }
+
+        //5,310,881
+
 
         var t1 = Game.flags.T1;
         var t2 = Game.flags.T2;

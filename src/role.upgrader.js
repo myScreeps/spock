@@ -3,6 +3,13 @@ var fileName = "Upgrader    ";
 module.exports = {
     // a function to run the logic for this role
     run: function (creep) {
+        var debugRoom = "E26N3x"
+
+        if (creep.id == "607f1a6e4c8b322d0d738e55") {
+            if (Game.time % 10 != 0 && creep.memory.renew == false) {
+                return;
+            }
+        }
 
         //    creep.say ("up: " + + creep.ticksToLive);
 
@@ -73,8 +80,15 @@ module.exports = {
         // if creep is supposed to transfer energy to the controller
         // ****************************************************************
         if (creep.memory.working == true) {
-            // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " creep.memory.working == true)");
-            // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " The room constroller is )" + creep.room.controller);
+
+            if (creep.room.name == debugRoom) {
+                console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " creep.memory.working == true)");
+                console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " The room constroller is )" + creep.room.controller);
+
+                //  https://screeps.com/a/#!/room/shard3/E25N3
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + '] somethiing is ' + ' ' +'</>');
+            }
+
 
             // try to upgrade the controller
 
@@ -84,57 +98,70 @@ module.exports = {
 
 
                 //var gotoStatus = creep.goto(creep.roomPosition(24, 25))
-                var gotoStatus = creep.gotoXY(24, 25);
-                if (gotoStatus == false) {
-                    return;
+                // var gotoStatus = creep.gotoXY(24, 25);
+                // if (gotoStatus == false) {
+                //     return;
+                // }
+
+                // if (creep.pos.isNearTo == false) {
+                //     creep.travelTo()
+                // }
+
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] creep.store.getUsedCapacity() is ' + creep.store.getUsedCapacity() + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] Game.spawns.Spawn3.store.getUsedCapacity(RESOURCE_ENERGY) is ' + Game.spawns.Spawn3.store.getUsedCapacity(RESOURCE_ENERGY) + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] Game.spawns.Spawn3.store.getFreeCapacity(RESOURCE_ENERGY) is ' + Game.spawns.Spawn3.store.getFreeCapacity(RESOURCE_ENERGY) + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] _.sum(Game.spawns.Spawn3.store) is ' + _.sum(Game.spawns.Spawn3.store) + '</>');
+
+
+                if (creep.store.getUsedCapacity() >= 75) {
+                    //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] 1creep.store.getUsedCapacity() is ' + creep.store.getUsedCapacity() + '</>');
+
+                    // 6053303b1b94d05296dcfb36 Spawn3
+                    if (_.sum(Game.spawns.Spawn3.store) < 300) {
+                        //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] 1Game.spawns.Spawn3.store.getFreeCapacity() is ' + Game.spawns.Spawn3.store.getFreeCapacity() + '</>');
+                        creep.transfer(Game.spawns.Spawn3, RESOURCE_ENERGY);
+                    }
+
                 }
-                if (Game.time % 5 != 0) {
-                    return;
-                }
+
+                // if (Game.time % 5 != 0) {
+                //     return;
+                // }
 
 
             }
 
-            if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                // if not in range, move towards the controller
-                // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " is moving closer to constroler");
-                creep.travelTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffaa00' } });
+
+            if (creep.pos.isNearTo(Game.spawns.Spawn3) != true) {
+
+                //  creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE // if not in range, move towards the controller
+                //  console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " is moving closer to constroler");
+                creep.travelTo(Game.spawns.Spawn3, { visualizePathStyle: { stroke: '#ffaa00' } });
                 util.repairRoad(creep);
             }
             else {
                 //  console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " upgrading controller");
                 // find closest container //s.structureType == STRUCTURE_CONTAINER ||
+                if (creep.room.name == "E26N3") {
+
+                    if (Game.time % 5 != 0) {
+                        return
+                    }
+
+                    var status = creep.upgradeController(creep.room.controller);
+                    return;
+                    // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + '] somethiing is ' + ' ' +'</>');
+                }
+
                 var status = creep.upgradeController(creep.room.controller);
+
+
                 // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " upgrading status " + status);
 
 
 
             }
         }
-        // ****************************************************************
-        // if creep is supposed to get energy
-        // ****************************************************************
-
-        // else{
-        //     // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " creep.memory.working != true)");
-        //     // find closest container //s.structureType == STRUCTURE_CONTAINER ||
-        //     let link = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-        //         filter: s => (s.structureType == STRUCTURE_LINK) && s.energy > 0});
-        //         if (creep.room.name == "E44S3" && link != null && link != undefined){
-        //            // console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' +  creep.name + ' link engery is ' + link);
-        //           //  console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' +  creep.name + ' link engery is ' + link.energy);
-
-        //         }
-        //     if (link != undefined)
-        //     {
-        //         console.log('[' + fileName + 'line:' + util.LineNumber() + '] Link found ');
-        //         // try to withdraw energy, if the container is not in range
-        //         if (creep.withdraw(link, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-        //             // move towards it
-        //             // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " switching is moving closer to container");
-        //             creep.travelTo(link, { visualizePathStyle: { stroke: '#ffaa00' } });
-        //         }
-        //     }
         else {
 
             let container = undefined;
@@ -197,15 +224,15 @@ module.exports = {
                 if (container.store[RESOURCE_ENERGY] == 0) {
                     container = undefined;
                 }
-                //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() +
-                //   '] XXXXXXXX room[' + creep.room.name + '] container is ' + container +'</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() +
+                //     '] XXXXXXXX room[' + creep.room.name + '] container is ' + container + '</>');
             }
 
 
 
             // if one was found
             if (container != undefined) {
-                // try to withdraw energy, if the container is not in range
+
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     // move towards it
                     // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " switching is moving closer to container");
@@ -246,8 +273,8 @@ function workCheck(creep) {
         // switch state
         return creep.memory.working = false;
     }
-    // if creep is harvesting energy but is full
-    else if (creep.memory.working == false && creep.carry.energy == creep.carryCapacity) {
+
+    else if (creep.memory.working == false && creep.store.getUsedCapacity(RESOURCE_ENERGY) == creep.store.getCapacity()) {
         // switch state
         return creep.memory.working = true;
     }

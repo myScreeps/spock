@@ -3,8 +3,6 @@ var util = require('Util');
 var roleUpgrader = require('role.upgrader');
 var roleRepairer = require('role.repairer');
 var roleBuilder = require('role.builder');
-
-
 var fileName = 'StorageToExt ';
 
 
@@ -12,9 +10,22 @@ var fileName = 'StorageToExt ';
 module.exports = {
     run: function (creep) {
         //    console.log("running storageToExt")
-        //  creep.say ("S2E " + creep.ticksToLive);
+
+        //60c4a9d57afa4a2395eb5f61
+
+        // creep.say("S2E " + creep.ticksToLive);
 
         util.say(creep, "S2X", 300);
+
+        // if (creep.id == "60c4a9d57afa4a2395eb5f61" && creep.memory.moveTo == true) {
+
+        //     var pos = new RoomPosition(40, 36, "E25N3")
+        //     if (creep.pos.isEqualTo(pos) == false) {
+        //         creep.travelTo(pos);
+        //         return;
+        //     }
+        // }
+
 
         //  util.repairRoad(creep);
 
@@ -132,6 +143,9 @@ module.exports = {
                     || (s.structureType == STRUCTURE_SPAWN
                         && s.id != "5e69303370a8a9c16609e25f"
                         && s.id != "602899b51d26a99361d2c076"
+                        && s.id != "602899b51d26a99361d2c076"
+                        && s.id != "60b85f557e3e0d31ab1905c4" // E25N3 spawn5
+
                         && s.id != ignoreSpawn3()))   // E26N3 Spawn3
                     // && (s.name != "Spawn3" && s.store[RESOURCE_ENERGY] > 50)
                     && s.energy < s.energyCapacity
@@ -237,7 +251,17 @@ module.exports = {
                 //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] parkItStatus is ' + parkItStatus + '</>');
                 return;
             }
-            var parkItStatus = parkIt(creep, 12, 17);
+            if (creep.room.name == "E26N3") {
+                var parkItStatus = parkIt(creep, 12, 17);
+            }
+
+            else if (creep.room.name == "E25N3") {
+                var parkItStatus = parkIt(creep, 40, 36);
+            }
+            else {
+                creepTravelTo(creep.room.storage)
+            }
+
             // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] 2parkItStatus is ' + parkItStatus + '</>');
             return;
         }

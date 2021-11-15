@@ -268,10 +268,15 @@ module.exports =
     pickupResources2: function (creep, scanRange, minAmount) {
         //TODO: scan for resources in a limited rangesuch as within 3-5 squares
         droppedEngeryTarget = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
+        if (droppedEngeryTarget != undefined) {
+            console.log('<font color = "yellow">[' + fileName + 'line:' + this.LineNumber() + '] droppedEngeryTarget status is ' + droppedEngeryTarget + '</>');
+            status = creep.pickup(droppedEngeryTarget);
+            console.log('<font color = "yellow">[' + fileName + 'line:' + this.LineNumber() + '] pickupResources2 status is ' + status + '</>');
+            return creep.pickup(droppedEngeryTarget);
+        }
 
-        status = creep.pickup(droppedEngeryTarget);
+        return undefined;
 
-        return creep.pickup(droppedEngeryTarget);
     },
 
 
@@ -660,7 +665,7 @@ module.exports =
             //       console.log('<font color = "orange">[' + fileName + 'line:' + this.LineNumber() + '] constructionSiteToBuild: ' + JSON.stringify(constructionSiteToBuild) + '</>');
 
             var buildStatus = creep.build(constructionSiteToBuild);
-
+            return buildStatus;
             //  console.log('<font color = "orange">[' + fileName + 'line:' + this.LineNumber() + '] buildStatus: ' + buildStatus + '</>');
             //  console.log('<font color = "orange">[' + fileName + 'line:' + this.LineNumber() + '] JSON.stringify(structures[i] to repaired):' + JSON.stringify(structures[i].structure.structureType) +'</>');
 
@@ -1158,6 +1163,7 @@ module.exports =
         return link;
     },
 
+
     findNearestContainerToSource1: function (spawnOrCreep, range) {
 
         var container = undefined;
@@ -1187,6 +1193,7 @@ module.exports =
 
         return container;
     },
+
 
     findNearestLinkToSource2: function (spawnOrCreep, range) {
 
@@ -1219,7 +1226,7 @@ module.exports =
         //  var structureAtFlag = this.findStrucureAtFlag(spawnOrCreep, flagName, strutureType, range )
 
         var _flag = Game.flags[flagName];
-        console.log('<font color = "yellow">[' + fileName + 'line:' + this.LineNumber() + '] _flag' + _flag + ' </>');
+        ///  console.log('<font color = "yellow">[' + fileName + 'line:' + this.LineNumber() + '] _flag' + _flag + ' </>');
 
         var foundStructure = undefined;
         structuresFound = _flag.pos.findInRange(FIND_MY_STRUCTURES, 0, {
@@ -1229,7 +1236,7 @@ module.exports =
         if (structuresFound.length > 0) {
             foundStructure = structuresFound[0];
         }
-        console.log('<font color = "yellow">[' + fileName + 'line:' + this.LineNumber() + '] foundStructure is ' + foundStructure + '</>');
+        // console.log('<font color = "yellow">[' + fileName + 'line:' + this.LineNumber() + '] foundStructure is ' + foundStructure + '</>');
 
         return foundStructure;
     },

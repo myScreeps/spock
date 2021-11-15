@@ -10,7 +10,7 @@ module.exports = function () {
     Creep.prototype.debug = function (textColor, fileName, lineNumber, debugText) {
         console.log('<font color = "' + textColor + '">[' + fileName + 'line:' + lineNumber + '] ' + debugText + '</>');
     }
-   //${command:workbench.action.files.saveAll}
+    //${command:workbench.action.files.saveAll}
     // function Unit() {
     //     this._data; // just temp value
     // }

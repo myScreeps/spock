@@ -18,6 +18,30 @@ module.exports.initCode = function () {
         console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(room) is ' + JSON.stringify(room) + '</>');
         console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] 12room.name is ' + room.name + '</>');
 
+        if (room.name == "E25N3") {
+
+            // Memory.E25N3 = undefined;
+
+            if (Memory.E25N3 == undefined) {
+                Memory.E25N3 = {};
+            }
+
+            var parameterFlags = room.find(FIND_FLAGS, { filter: s => s.name.startsWith('Parameter') });
+            var sortedFlags = _.sortBy(parameterFlags, 'name');
+
+            var points = [];
+            var point = [];
+            sortedFlags.forEach(flag => {
+                points.push([flag.pos.x, flag.pos.y]);
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] points is ' + points + '</>');
+                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(points) is ' + JSON.stringify(points) + '</>');
+            });
+
+            Memory.E25N3.roomParameter = points;
+
+        }
+
+
         if (room.name == "E26N3") {
             if (Memory.E26N3 == undefined) {
                 Memory.E26N3 = new Object();
@@ -57,6 +81,8 @@ module.exports.initCode = function () {
             });
 
             Memory.E26N3.roomParameter = points;
+
+
             //  Memory.E26N3.tombstones = [];
             if (Memory.E26N3.tombstones == undefined) {
                 var tomestones = [];

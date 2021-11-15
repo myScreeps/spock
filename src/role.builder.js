@@ -9,11 +9,141 @@ module.exports = {
     // a function to run the logic for this role
     run: function (creep) {
 
-        if (creep.id == "60669d5cf35317849a39566ax") {
-            var pos = new RoomPosition(4, 21, "E26N3")
-            creep.travelTo(pos);
+
+        var debugRoomName = "E25N3";
+
+        if (creep.room.name == "E25N3") {
+            //  creep.memory.buildTargetId = "60b85184d1b51120104bc03d";
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + '] somethiing is ' + ' ' +'</>');
+        }
+
+        // creep.travelTo(new RoomPosition(42, 38, "E25N3"))
+
+        // return;
+        // if (creep.id == "6083e9982ba9ac6870c88c03x") {
+        //     creep.goto(new RoomPosition(41, 34, "E25N3"))
+        //     return;
+
+        //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] creep.memory.target is ' + creep.memory.target + '</>');
+        //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] creep.room.name is ' + creep.room.name + '</>');
+        //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] Memory.E25N3.invadersCount is ' + Memory.E25N3.invadersCount + '</>');
+
+        //     if (creep.memory.target == "E25N3" && creep.room.name != "E25N3" && Memory.E25N3.invadersCount == 0) {
+        //         console.log('<font color = "purple">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] creep.memory.target is ' + creep.memory.target + '</>');
+        //         creep.goto(new RoomPosition(41, 34, "E25N3"))
+        //         return;
+        //     }
+        // }
+        // // if (creep.id == "6083e9982ba9ac6870c88c03") {
+        // //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] Build creep.room.name is ' + creep.room.name + '</>');
+
+        // //     creep.goto(new RoomPosition(42, 38, "E25N3"))
+        // //     return;
+        // // }
+
+        //creep.memory.id = creep.id;
+
+        //creep.goto(new RoomPosition(42, 38, "E25N3"));
+
+        // if (creep.id == "60806d1ff9b1d620571f3fc1") {
+        //     creep.gotoXY(48, 34)
+        //     return;
+        // }
+
+
+        var safeModeTimeRemaining = Game.rooms[creep.memory.target].controller.safeMode;
+        if (safeModeTimeRemaining != undefined) {
+            console.log('<font color = "greem">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] safeModeTimeRemaining ' + safeModeTimeRemaining + '</>');
+
+            Memory.E25N3.invadersCount = 0;
+        }
+
+
+        if (creep.memory.target == "E25N3" && creep.room.name != "E25N3" && Memory.E25N3.invadersCount == 0) {
+            // //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] Build creep.room.name is ' + creep.room.name + '</>');
+
+            creep.goto(new RoomPosition(42, 38, "E25N3"))
             return;
         }
+
+
+
+        if (creep.room.name == "E25N3") {
+
+
+
+            if (Memory.E25N3.invadersCount > 0 && safeModeTimeRemaining == undefined) {
+
+                console.log('<font color = "red">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] Memory.E25N3.invadersCount ' + Memory.E25N3.invadersCount + '</>');
+
+                creep.travelTo(new RoomPosition(3, 33, "E26N3"))
+                return;
+            }
+
+
+
+
+            if (creep.room.name == "E25N3") {
+                var tower40x35y = Game.getObjectById("607afc9c2800abdecf885678");
+                //      console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tower40x35y.store.getFreeCapacity() is ' + tower40x35y.store.getFreeCapacity(RESOURCE_ENERGY) + '</>');
+                //    console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] creep.store.getFreeCapacity() is ' + creep.store.getFreeCapacity() + '</>');
+                if (tower40x35y != undefined && tower40x35y.store.getFreeCapacity(RESOURCE_ENERGY) >= 150 && creep.store.getFreeCapacity() == 0) {
+                    creep.goto(tower40x35y.pos)
+                    creep.transfer(tower40x35y, RESOURCE_ENERGY);
+                    return;
+                }
+
+
+                var tower39x35y = Game.getObjectById("60848acea1a62b83ab53dd40");
+                if (tower39x35y != undefined && tower39x35y.store.getFreeCapacity(RESOURCE_ENERGY) >= 150 && creep.store.getFreeCapacity() == 0) {
+                    creep.goto(tower39x35y.pos)
+                    creep.transfer(tower39x35y, RESOURCE_ENERGY);
+                    return;
+                }
+            }
+
+
+
+            var source1 = Game.getObjectById("5bbcae639099fc012e638ec1");
+
+            if (creep.pos.isNearTo(new RoomPosition(42, 37, "E25N3"))) {
+                creep.pickup(RESOURCE_ENERGY);
+            }
+            var energyRemaining = source1.energy;
+            if (energyRemaining == 0) {
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] energyRemaining is ' + energyRemaining + '</>');
+                var source1Container = Game.getObjectById("607aa27af913974828c07b7a");
+
+                if (Game.time % 2 == 0 && _.sum(source1Container.store) <= 1800) {
+                    console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] skippng tick is ' + Game.time + '</>');
+                    return;
+                }
+            }
+
+            //#hack
+            var firstTowerInE25N3 = Game.getObjectById("607afc9c2800abdecf885678")
+            if (firstTowerInE25N3 != undefined) {
+                var towerEnergy = _.sum(firstTowerInE25N3.store);
+                //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] towerEnergy is ' + towerEnergy + '</>');
+
+                if (creep.pos.isNearTo(firstTowerInE25N3) && towerEnergy <= 850) {
+                    creep.transfer(firstTowerInE25N3, RESOURCE_ENERGY);
+                    //    return;
+                }
+
+            }
+
+
+
+        }
+
+
+
+        // if (creep.id == "60669d5cf35317849a39566ax") {
+        //     var pos = new RoomPosition(4, 21, "E26N3")
+        //     creep.travelTo(pos);
+        //     return;
+        // }
 
         // var spawn1 = Game.spawns["Spawn1"];
 
@@ -30,6 +160,10 @@ module.exports = {
         // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] flagOnSource2Link is ' + flagOnSource2Link +'</>');
 
 
+        // if (creep.id == "607ab7663769c57e96436cc2") {
+        //     creep.goto(Game.flags.Flag1);
+        //     return;
+        // }
 
         let container = undefined;
         // if resouces are nearby, attempt to pickup.
@@ -50,29 +184,31 @@ module.exports = {
             return;
         }
 
-        // if (creep.memory.renew == true) {
 
-        //     var closestSpawn = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
-        //     var isNextToSpawn = creep.pos.isNearTo(closestSpawn);
-        //     if (!isNextToSpawn) {
-        //         var travelToStatus = creep.travelTo(closestSpawn);
-        //         return;
-        //     }
-        //     closestSpawn.renewCreep(creep);
-        //     if (creep.ticksToLive >= 1450) {
-        //         creep.memory.renew = false;
-        //     }
-        //     return;
-        //     //var travelToStatus = creep.travelTo(closestSpawn);
-        // }
+        //    if (creep.memory.renew == true && (creep.id == "6083e8abfa8e740019de4301" || creep.id == "6083e90c5d3cb58431ba25c4" || creep.id == "6083e9982ba9ac6870c88c03")) {
+        if (creep.memory.renew == true) {
+
+            var closestSpawn = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
+            var isNextToSpawn = creep.pos.isNearTo(closestSpawn);
+            if (!isNextToSpawn) {
+                var travelToStatus = creep.travelTo(closestSpawn);
+                return;
+            }
+            closestSpawn.renewCreep(creep);
+            if (creep.ticksToLive >= 1450) {
+                creep.memory.renew = false;
+            }
+            return;
+            //var travelToStatus = creep.travelTo(closestSpawn);
+        }
 
 
 
-        // if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
+        if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
 
-        //     roleUpgrader.run(creep);
-        //   //  roleHarvester.run(creep);
-        // }
+            roleUpgrader.run(creep);
+            //  roleHarvester.run(creep);
+        }
 
 
 
@@ -119,13 +255,14 @@ module.exports = {
         }
 
 
-        renewCheck(creep, 300);
+        renewCheck(creep, 700);
 
         if (creep.memory.renew == true) {
 
             var closestSpawn = creep.pos.findClosestByRange(FIND_MY_SPAWNS);
             var isNextToSpawn = creep.pos.isNearTo(closestSpawn);
             if (!isNextToSpawn) {
+
                 creep.travelTo(closestSpawn);
                 return;
             }
@@ -157,10 +294,19 @@ module.exports = {
 
 
         if (creep.memory.working == true) {
-            //    console.log('[' + fileName + 'line:' + util.LineNumber() + '] creep.memory.working == true ');
+            //  console.log('[' + fileName + 'line:' + util.LineNumber() + '] creep.memory.working == true ');
+
+
 
             // find closest constructionSite
             var constructionSite = undefined;
+            constructionSite = Game.getObjectById("607a9bc083a3c9767a9ac6c4")
+            //      console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] creep.memory.buildTargetId is ' + creep.memory.buildTargetId + '</>');
+
+            //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] creep.room.name is ' + creep.room.name + '</>');
+            //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(creep.memory) is ' + JSON.stringify(creep.memory) + '</>');
+            // creep.goto(constructionSite.pos);
+
             if (creep.memory.buildTargetId != undefined) {
                 constructionSite = Game.getObjectById(creep.memory.buildTargetId)
                 console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] constructionSite is ' + constructionSite + '</>');
@@ -199,12 +345,12 @@ module.exports = {
             if (constructionSite != undefined) {
                 // try to build, if the constructionSite is not in range
                 // if (creep.id == "60601ce2a96f6348e9edfd48") {
-                //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] 1creep.id is ' + creep.id + '</>');
+                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] 1creep.id is ' + creep.id + '</>');
                 // }
                 if (creep.build(constructionSite) == ERR_NOT_IN_RANGE) {
                     // move towards the constructionSite
                     creep.travelTo(constructionSite, { visualizePathStyle: { stroke: '#ffaa00' } });
-                    util.repairRoad(creep);
+                    //   util.repairRoad(creep);
 
 
                 }
@@ -213,10 +359,14 @@ module.exports = {
             // if no constructionSite is found
             else {
                 // creep.memory.working = false;
-                // console.log('[' + fileName + 'line:' + util.LineNumber() + '] !!!!!!!!!!!!!! no constructionSite is found ');
+                if (creep.room.name == debugRoomName) {
+                    console.log('[' + fileName + 'line:' + util.LineNumber() + '] !!!!!!!!!!!!!! no constructionSite is found ');
+
+                    // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + '] somethiing is ' + ' ' +'</>');
+                }
                 // go upgrading the controller
                 // roleHarvester.run(creep);
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] ' + creep.name + ' is calling upgrader role' + '</>');
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] ' + creep.name + ' is calling upgrader role' + '</>');
 
                 var upgraderStatus = roleUpgrader.run(creep);
                 if (creep.name != upgraderStatus) {
@@ -392,8 +542,8 @@ module.exports = {
 
 };
 function renewCheck(creep, renewCheck) {
-    if (creep.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
-        if (creep.ticksToLive <= 700) {
+    if (creep.store.getFreeCapacity(RESOURCE_ENERGY) == 0 || creep.ticksToLive <= 300) {
+        if (creep.ticksToLive <= renewCheck) {
             creep.memory.renew = true;
         }
     }

@@ -7,9 +7,35 @@ var fileName = "Repairer    ";
 module.exports = {
     // a function to run the logic for this role
     run: function (creep) {
-        util.say(creep, "rpr");
+        var debugRoom = "E26N3x";
 
-        // return;
+
+        // util.say(creep, "rpr");
+
+
+        var primarySpawn = Game.spawns.Spawn5;
+        var maxRampartHits = primarySpawn.memory.maxRampartHits;
+
+        if (creep.id == "60c4b9180b8f5301fe1cd04e") {
+
+            var pos = new RoomPosition(25, 22, "E25N3")
+            if (creep.pos.isEqualTo(pos) == false) {
+                creep.travelTo(pos);
+                return;
+            }
+
+            if (Game.time % 5 == 0) {
+                creep.upgradeController(creep.room.controller)
+            }
+
+        }
+
+        if (creep.id == "60c4b9180b8f5301fe1cd04e") {
+            var spawn5 = Game.spawns.Spawn5;
+            if (spawn5.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+                creep.transfer(spawn5, RESOURCE_ENERGY);
+            }
+        }
 
 
 
@@ -67,7 +93,7 @@ module.exports = {
         if (creep.memory.working == true) {
 
             // check for a specific structure
-            // console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' +  creep.name + '  creep.memory.targetStructure is ' + creep.memory.targetStructureId);
+            //console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' +  creep.name + '  creep.memory.targetStructure is ' + creep.memory.targetStructureId);
 
             if (creep.memory.targetStructureId != undefined) {
                 //console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' +  creep.name + '  creep.memory.targetStructure is ' + creep.memory.targetStructureId);
@@ -94,38 +120,79 @@ module.exports = {
             // our repairers busy forever. We have to find a solution for that later.
 
             else {
-                var structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                    // the second argument for findClosestByPath is an object which takes
-                    // a property called filter which can be a function
-                    // we use the arrow operator to define it
-                    filter: (s) => s.hits < (s.hitsMax) && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART
-                });
 
 
-                // var x = "0";
-                // switch (structure.structureType) {
-                //   case STRUCTURE_ROAD:
+                var structure = undefined
 
-                //     break;
-                //   case STRUCTURE_RAMPART:
-                //     text = "On";
-                //     break;
 
-                //     default:
-                //     text = "No value found";
-                // }
+                if (creep.room.name == "E25N3") {
+                    //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] primarySpawn is ' + primarySpawn + '</>');
+                }
 
 
 
-                var structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                    // the second argument for findClosestByPath is an object which takes
-                    // a property called filter which can be a function
-                    // we use the arrow operator to define it
-                    filter: (s) => s.hits < (s.hitsMax) && s.structureType != STRUCTURE_WALL, ignoreCreeps: true
-                });
+                if (creep.room.name == "E25N3" && primarySpawn != undefined) {
+                    if (structure == undefined) {
+                        structure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                            filter: (s) => s.hits < primarySpawn.memory.maxRampartHits
+                                && s.structureType == STRUCTURE_RAMPART
+                                && (s.id == "60b86c47ee99d307aa4933cf"
+                                    || s.id == "60b86c47ee99d3e1154933ce"
+                                    || s.id == "60b86f282fd8f704d3e7af17"
+                                    || s.id == "60b86c55c8c88803dc31bc6f"
+                                )
+                        });
+
+                    }
+
+
+                    if (structure == undefined) {
+                        return;
+                    }
+                }
+
+
+                if (structure == undefined) {
+                    var structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                        filter: (s) => s.hits < (s.hitsMax) && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART
+                    });
+
+                }
+
+                if (structure == undefined) {
+                    var structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                        filter: (s) => s.hits < (s.hitsMax) && s.structureType != STRUCTURE_WALL, ignoreCreeps: true
+                    });
+                }
+
+                if (creep.room.name == "debugRoom") {
+                    console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] Repair target structure is ' + structure + '</>');
+                    // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + '] somethiing is ' + ' ' +'</>');
+                }
+
 
                 if (structure != undefined) {
                     //  creep.memory.targetStructureId = structure;
+                }
+
+                if (creep.room.name == "E25N3") {
+                    //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] target repair structure is ' + structure + '</>');
+                }
+
+
+                if (creep.room.name == "E25N3") {
+                    if (structure != undefined) {
+                        // try to repair it, if it is out of range
+                        //  console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' + creep.name + ' repairing structure ' + structure);
+                        var repairStatus = creep.repair(structure);
+                        //   console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' + creep.name + ' repair status is ' + repairStatus);
+                        if (repairStatus == ERR_NOT_IN_RANGE) {
+                            // move towards it
+                            // /console.log('[' + fileName + 'line:' + util.LineNumber() + '] moving towards a road tunnel ');
+                            creep.moveTo(structure, { visualizePathStyle: { stroke: '#ffaa00' } });
+                        }
+                        return;
+                    }
                 }
 
                 // if we find one
@@ -170,6 +237,7 @@ module.exports = {
                         creep.memory.role = "longDistanceHarvester";
                     }
 
+                    //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] NOTE: Repairer can find anything repair, switching to harvester </>');
                     roleHarvester.run(creep);
                 }
             } // end if
@@ -183,15 +251,25 @@ module.exports = {
             // find closest container // s.structureType == STRUCTURE_CONTAINER ||
 
 
-            var sourceFlag = Game.flags["Source2_" + creep.room.name];
+            var sourceFlag = Game.flags["Source_" + creep.room.name];
+
+            console.log('[' + fileName + 'line:' + util.LineNumber() + '] ' + creep.room.name + ' sourceFlag is ' + sourceFlag);
 
 
+            //sourceFlag = Game.flags["Source_" + creep.room.name]
 
+            let container = undefined;
+            if (creep.room.name == "E25N3") {
+                container = Game.getObjectById("60b8511dee794132aa7fb6ac")
+            }
 
-            let container = sourceFlag.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: s => (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE) &&
-                    s.store[RESOURCE_ENERGY] > 200
-            });
+            if (container == undefined) {
+                container = sourceFlag.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: s => (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE) &&
+                        s.store[RESOURCE_ENERGY] > 200
+                });
+            }
+
             // if one was found
             if (container != undefined) {
                 // try to withdraw energy, if the container is not in range

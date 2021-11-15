@@ -5,6 +5,7 @@ var roleBuilder = require('role.builder');
 
 
 
+
 var fileName = 'recycle ';
 
 
@@ -13,11 +14,54 @@ var fileName = 'recycle ';
 
 module.exports = {
     run: function (creep) {
+        //  return
+        // if (creep.id == "608e49de1b3481ccade4d25a") {
+        //     creep.travelTo(new RoomPosition(41, 38, "E25N3"))
+        //     var travelStatus = creep.travelTo(new RoomPosition(42, 38, "E25N3"));
+        //     return;
+        // }
+        var creepId = "60b7edef545cc18f456f36d8";
+        // if (creep.id == creepId) {
+        //     creep.travelTo(new RoomPosition(42, 38, "E25N3"))
+        //     // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + '] somethiing is ' + ' ' +'</>');
+        //     return;
+        // }
 
-        if (creep.memory.parkItPos == undefined) {
-            creep.memory.parkItPos = creep.roomPosition(39, 18);
+        if (creep.room.name == "E25N3") {
+            //creep.pickup(RESOURCE_ENERGY);
+            util.pickupResources(creep, 0);
+            // creep.transfer(creep.room.storage, RESOURCES_ALL);
+            // creep.transfer(creep.room.storage, RESOURCES_ALL)
+            if (creep.store.getUsedCapacity() > 0) {
+                for (const resourceType in creep.store) {
+                    //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  resourceType is ' + resourceType + '</>');
+                    // if (Object.hasOwnProperty.call(tombstone.store, resourceType)) {
+                    //     creep.transfer(creep.room.storage, resourceType);
+                    // }
+                    creep.transfer(creep.room.storage, resourceType);
+
+                }
+                return;
+            }
+
+
         }
 
+        // creep.travelTo(new roomPosition(1, 27, "E26N3"))
+
+        // if (creep.memory.home == "E25N3") {
+        //     creep.memory.parkItPos = new RoomPosition(42, 38, creep.memory.home);;
+
+        // }
+
+
+
+
+        if (creep.memory.home == "E26N3") {
+            if (creep.memory.parkItPos == undefined) {
+                creep.memory.parkItPos = new RoomPosition(39, 18, creep.memory.home);
+            }
+        }
 
 
         // if (creep.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
@@ -51,13 +95,33 @@ module.exports = {
 
         // Don't attempt to withdraw resources while invaders are in the room
         var invadersCount = creep.room.find(FIND_HOSTILE_CREEPS).length;
+        var droppedEnergy = undefined;
         if (invadersCount == 0) {
             tombstone = creep.pos.findClosestByRange(FIND_TOMBSTONES, { filter: s => _.sum(s.store) > 0 })
+            //     tomestone = Game.getObjectById("6089eefd7e1ad58ecbe31b9d");
+
+            if (tombstone == undefined) {
+                droppedEnergy = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
+            }
+
         }
+
+        if (droppedEnergy != undefined && _.sum(creep.store) < creep.store.getCapacity(RESOURCE_ENERGY)) {
+            util.pickupResources(creep, 0);
+            creep.travelTo(droppedEnergy.pos)
+            return;
+        }
+
+
 
         // var tombstonesHistory = new set (Memory.E26N3.tombstones);
         //  Memory.E26N3.tombstones = Memory.E26N3.tombstones.add
-        console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstone is ' + tombstone + '</>');
+
+        if (tombstone != undefined) {
+            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstone is ' + tombstone + '</>');
+        }
+
+
         var storeContent = 0;
         if (tombstone != undefined) {
             var storeContent = _.sum(tombstone.store)
@@ -78,74 +142,145 @@ module.exports = {
         // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] creep.store.getFreeCapacity()' + creep.store.getFreeCapacity() + '</>');
 
 
-        if ((tombstone == undefined || storeContent == 0 || creep.store.getFreeCapacity() == 0) && creep.store[RESOURCE_ENERGY] > 0) {
+        if (creep.room.name == "E26N3") {
 
-            var link2Flag = Game.flags["Link2_" + creep.room.name] //E26N3
-            if (creep.store.getCapacity(RESOURCE_ENERGY) > 0) {
-                var link2 = util.findNearestLinkToSource2(creep, 3)
-                if (creep.pos.isNearTo(link2) != true) {
-                    var moveStatus = creep.travelTo(link2);
+            if ((tombstone == undefined || droppedEnergy == undefined || storeContent == 0 || creep.store.getFreeCapacity() == 0) && creep.store[RESOURCE_ENERGY] > 0) {
+
+                var link2Flag = Game.flags["Link2_" + creep.room.name] //E26N3
+                if (creep.store.getCapacity(RESOURCE_ENERGY) > 0) {
+                    var link2 = util.findNearestLinkToSource2(creep, 3)
+                    if (creep.pos.isNearTo(link2) != true) {
+                        var moveStatus = creep.travelTo(link2);
+                        return;
+                    }
+                    creep.transfer(link2, RESOURCE_ENERGY);
                     return;
                 }
-                creep.transfer(link2, RESOURCE_ENERGY);
+            }
+
+        }
+
+        if (creep.room.name == "E25N3") {
+            // var nearbyStorageStatus = creep.pos.isNearTo(creep.room.storage);
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] nearbyStorageStatus is ' + nearbyStorageStatus + '</>');
+
+            if (creep.pos.isNearTo(creep.room.storage) != true) {
+                var moveStatus = creep.travelTo(creep.room.storage);
+                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] creep.room.storage is ' + creep.room.storage + '</>');
+                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] moveStatus is ' + moveStatus + '</>');
                 return;
             }
-        }
+            // var status = creep.transfer(creep.room.storage, RESOURCE_ENERGY);
+            // var status = creep.transfer(creep.room.storage, RESOURCE_GHODIUM_OXIDE);
+            // var status = creep.transfer(creep.room.storage, RESOURCE_ZYNTHIUM_HYDRIDE);
+            // var status = creep.transfer(creep.room.storage, RESOURCE_KEANIUM_OXIDE);
+            // var status = creep.transfer(creep.room.storage, RESOURCE_UTRIUM_HYDRIDE);
 
-        // if ((tombstone == undefined || storeContent == 0 || creep.store.getFreeCapacity() == 0) && creep.store[RESOURCE_UTRIUM_HYDRIDE] > 0) {
+            if (creep.store.getUsedCapacity() > 0) {
+                for (const resourceType in creep.store) {
+                    //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  resourceType is ' + resourceType + '</>');
+                    if (Object.hasOwnProperty.call(tombstone.store, resourceType)) {
+                        creep.transfer(creep.room.storage, resourceType);
+                    }
+                }
+            }
 
 
-        //     var link2Flag = Game.flags["Lab_UH_" + creep.room.name] //E26N3
-        //     if (creep.store.getCapacity(RESOURCE_UTRIUM_HYDRIDE) > 0) {
-        //         var Lab_UH = util.findStructureAtFlag(creep, "Lab_UH_" + creep.room.name, STRUCTURE_LAB);
 
-        //         var link2 = util.findNearestLinkToSource2(creep, 3)
-        //         if (creep.pos.isNearTo(Lab_UH) != true) {
-        //             var moveStatus = creep.travelTo(Lab_UH);
-        //             return;
-        //         }
-        //         creep.transfer(Lab_UH, RESOURCE_UTRIUM_HYDRIDE);
-        //         return;
-        //     }
-        // }
 
-        // var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_ENERGY);
-        // if (depositStatus != true) {
-        //     return;
-        // }
+            //console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] status is ' + status + '</>');
 
-        var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_GHODIUM_OXIDE);
-        if (depositStatus != true) {
-            return;
-        }
-
-        var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_UTRIUM_HYDRIDE);
-        if (depositStatus != true) {
-            return;
+            //   /  return;
         }
 
 
-        var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_ZYNTHIUM_HYDRIDE);
-        if (depositStatus != true) {
-            return;
-        }
-        var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_KEANIUM_OXIDE);
-        if (depositStatus != true) {
-            return;
+
+
+
+
+        // ***************************************************************************************
+        // deposit minerals
+        // ***************************************************************************************
+
+        if (creep.room.name == "E26N3" && creep.store.getUsedCapacity() > 0) {
+
+            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] Traveling to deposit minerals is ' + '</>');
+            var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_GHODIUM_OXIDE);
+            if (depositStatus != true) {
+                return;
+            }
+
+
+            var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_UTRIUM_HYDRIDE);
+            if (depositStatus != true) {
+                return;
+            }
+
+
+            var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_ZYNTHIUM_HYDRIDE);
+            if (depositStatus != true) {
+                return;
+            }
+            var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_KEANIUM_OXIDE);
+            if (depositStatus != true) {
+                return;
+            }
+
         }
 
-        //   /  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] getUsedCapacity is ' + tombstone.getUsedCapacity + '</>');
+        if (creep.room.name == "E26N3x") {
+
+            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] Traveling to deposit minerals is ' + '</>');
+            var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_GHODIUM_OXIDE);
+            if (depositStatus != true) {
+                return;
+            }
+
+
+            var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_UTRIUM_HYDRIDE);
+            if (depositStatus != true) {
+                return;
+            }
+
+
+            var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_ZYNTHIUM_HYDRIDE);
+            if (depositStatus != true) {
+                return;
+            }
+            var depositStatus = labDeposit(creep, tombstone, storeContent, RESOURCE_KEANIUM_OXIDE);
+            if (depositStatus != true) {
+                return;
+            }
+
+        }
+
+        // ***************************************************************************************
+        // ParkIt. Nothing left to do.
+        // ***************************************************************************************
+
         if (tombstone == undefined || storeContent == 0) {
 
             // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] no tombstone is found. There is nothing for recycler to do at this time' + tombstone + '</>');
 
-            creep.memory.parkItPos = creep.roomPosition(39, 18);
+            if (creep.memory.home == "E26N3") {
+                creep.memory.parkItPos = new RoomPosition(39, 18, creep.memory.home);
+            }
+
+            if (creep.memory.home == "E25N3") {
+                creep.memory.parkItPos = new RoomPosition(42, 38, creep.memory.home);
+            }
+
+
+
             if (creep.pos.isEqualTo(creep.memory.parkItPos) == false) {
+                //     creep.memory.parkItPos = creep.roomPosition(42, 39, creep.memory.home);
                 var travelStatus = creep.travelTo(creep.memory.parkItPos);
                 return;
             }
             return;
+
         }
+        //   console.log('<font color = "green">[' + fileName + 'line:' + util.LineNumber() + '] debug ' + this.getMyName() + ': resourceType is ' + resourceType + '</>');
 
 
         if (creep.pos.isEqualTo(tombstone) == false && storeContent > 0) {
@@ -153,11 +288,26 @@ module.exports = {
             return;
         }
 
-        creep.withdraw(tombstone, RESOURCE_GHODIUM_OXIDE);
-        creep.withdraw(tombstone, RESOURCE_KEANIUM_OXIDE);
-        creep.withdraw(tombstone, RESOURCE_ZYNTHIUM_HYDRIDE);
-        creep.withdraw(tombstone, RESOURCE_UTRIUM_HYDRIDE);
-        creep.withdraw(tombstone, RESOURCE_ENERGY);
+
+
+        // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] debug ' + creep.getMyName() + ': resourceType is ' + resourceType + '</>');
+
+
+        for (const resourceType in tombstone.store) {
+            //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  resourceType is ' + resourceType + '</>');
+            if (Object.hasOwnProperty.call(tombstone.store, resourceType)) {
+                //const element = object[key];
+                creep.withdraw(tombstone, resourceType);
+            }
+        }
+
+        // creep.withdraw(tombstone, RESOURCE_GHODIUM_OXIDE);
+        // creep.withdraw(tombstone, RESOURCE_KEANIUM_OXIDE);
+        // creep.withdraw(tombstone, RESOURCE_ZYNTHIUM_HYDRIDE);
+        // creep.withdraw(tombstone, RESOURCE_UTRIUM_HYDRIDE);
+        // creep.withdraw(tombstone, RESOURCE_ENERGY);
+
+
 
         // var distmantleStatus = creep.dismantle(tombstone)
         // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] distmantleStatus is ' + distmantleStatus + '</>');
@@ -204,19 +354,46 @@ module.exports = {
 
         // return;
         // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] creep.store.getUsedCapacity(RESOURCE_ENERGY): ' + creep.store.getUsedCapacity(RESOURCE_ENERGY) + ' </>');
-
-        if (creep.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
-            var link2Flag = Game.flags["Link2_" + creep.room.name] //E26N3
-            if (creep.store.getCapacity(RESOURCE_ENERGY) > 0) {
-                var link2 = util.findNearestLinkToSource2(creep, 3)
-                if (creep.pos.isNearTo(link2) != true) {
-                    var moveStatus = creep.travelTo(link2);
+        if (creep.room.name == "E26N3") {
+            if (creep.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
+                var link2Flag = Game.flags["Link2_" + creep.room.name] //E26N3
+                if (creep.store.getCapacity(RESOURCE_ENERGY) > 0) {
+                    var link2 = util.findNearestLinkToSource2(creep, 3)
+                    if (creep.pos.isNearTo(link2) != true) {
+                        var moveStatus = creep.travelTo(link2);
+                        return;
+                    }
+                    creep.transfer(link2, RESOURCE_ENERGY);
                     return;
                 }
-                creep.transfer(link2, RESOURCE_ENERGY);
-                return;
             }
         }
+
+        else if (creep.room.name == "E25N3") {
+
+
+            if (creep.pos.isNearTo(store) != true) {
+                var moveStatus = creep.travelTo(storeLocation);
+                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] moveStatus is ' + moveStatus + '</>');
+                return;
+            }
+            var status = creep.transfer(storeLocation, RESOURCE_ENERGY);
+            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] status is ' + status + '</>');
+            return;
+        }
+        else {
+            var storeLocation = findNearestContainerToSource1(creep, 1);
+
+            if (creep.pos.isNearTo(storeLocation) != true) {
+                var moveStatus = creep.travelTo(storeLocation);
+                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] moveStatus is ' + moveStatus + '</>');
+                return;
+            }
+            var status = creep.transfer(storeLocation, RESOURCE_ENERGY);
+            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] status is ' + status + '</>');
+            return;
+        }
+
 
 
         return;
@@ -279,10 +456,7 @@ module.exports = {
         };
 
 
-        // if (creep.pos.isEqualTo(creep.memory.parkItPos) != true) {
-        //     var moveStatus = creep.travelTo(creep.memory.parkItPos);
-        //     return;
-        // }
+
 
         return;
 
@@ -415,6 +589,34 @@ module.exports = {
 
 //var transferStatus = transferResource(creep, lab1, RESOURCE_GHODIUM_OXIDE);
 //
+
+
+function nukeDeposit(creep, tombstone, storeContent, resource) {
+
+    labFlagName = "Lab_" + resource + "_" + creep.room.name;
+    //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] labFlagName is ' + labFlagName + '</>');
+    //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstone is ' + tombstone + '</>');
+    //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] storeContent is ' + storeContent + '</>');
+    //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] creep.store[resource] is ' + creep.store[resource] + '</>');
+
+    if ((tombstone == undefined || storeContent == 0 || creep.store.getFreeCapacity() == 0) && creep.store[resource] > 0) {
+
+        labFlagName = "Lab_" + resource + "_" + creep.room.name;
+        //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] labFlagName is ' + labFlagName + '</>');
+        if (creep.store.getCapacity(resource) > 0) {
+            var _Lab = util.findStructureAtFlag(creep, labFlagName, STRUCTURE_NUKER);
+            //    var link2 = util.findNearestLinkToSource2(creep, 3)
+            if (creep.pos.isNearTo(_Lab) != true) {
+                var moveStatus = creep.travelTo(_Lab);
+                return false;
+            }
+            creep.transfer(_Lab, resource);
+            return true;
+        }
+    }
+    return true;
+}
+
 
 function labDeposit(creep, tombstone, storeContent, resource) {
 

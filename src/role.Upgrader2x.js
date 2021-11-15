@@ -12,6 +12,7 @@ var fileName = 'up2x    ';
 
 module.exports = {
     run: function (creep) {
+        var upgradeDelay = 10; // upgrade delay for room E25N3
 
         // var signStatus = creep.signController(creep.room.controller,"He who has the most toys wins!");
         // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + creep.room.name + '] signStatus is ' + signStatus +'</>');
@@ -189,55 +190,23 @@ module.exports = {
             // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " creep.memory.working == true)");
             // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " The room constroller is )" + creep.room.controller);
 
-            // instead of upgraderController we could also use:
-            // if (creep.transfer(creep.room.controller, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-
-
-            // ********************************************************************************//;
-            // // block controller upgrade when storage is below a specific limit.
-            // ********************************************************************************//;
-
-            // if (creep.room.name == "E43S3") {
-
-            //     // only upgrade controller while Storage is above 100K energy units
-            //    var storageEnergy = creep.room.storage.store.energy;
-            //     if (storageEnergy < 100500) {
-            //         creep.travelTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffaa00' } });
-            //         util.repairRoad(creep);
-            //         return;
-            //     }
-            // }
-
-            if (upgradeThrottle(creep, "E43S3", 100500) == true) {
-                return;
-            }
-            if (upgradeThrottle(creep, "E44S2", 310500) == true) {
-                return;
-            }
-
-
-            // if (creep.room.name == "E44S2") {
-
-            //     // only upgrade controller while Storage is above 310K energy units
-            //     var storageEnergy = creep.room.storage.store.energy;
-            //     if (storageEnergy < 310500) {
-            //         creep.travelTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffaa00' } });
-            //         util.repairRoad(creep);
-            //         return;
-            //     }
-            // }
-
 
             // try to upgrade the controller
-            if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+            if (creep.pos.isNearTo(Game.spawn.Spawn3)) {
+                // if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 // if not in range, move towards the controller
                 // console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " is moving closer to constroler");
                 creep.travelTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffaa00' } });
-                util.repairRoad(creep);
+                // util.repairRoad(creep);
             }
             else {
                 //  console.log("[" + fileName + "Line " + util.LineNumber() + "]  " + creep.name + " upgrading controller");
                 // find closest container //s.structureType == STRUCTURE_CONTAINER ||
+                if (creep.room.name == "E26N3") {
+                    if (Game.time % upgradeDelay != 0) {
+                        return;
+                    }
+                }
                 var status = creep.upgradeController(creep.room.controller);
 
             }

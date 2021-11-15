@@ -255,7 +255,7 @@ module.exports = function () {
             MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
             HEAL, HEAL, HEAL, HEAL, HEAL, HEAL, HEAL, HEAL, HEAL, HEAL], creepName, { role: "bob" });
     };
-    1
+
     StructureSpawn.prototype.createBobA = function () {
         // console.log("Creating a claimer");
         var creepName = "bobA_" + Game.time;
@@ -405,7 +405,8 @@ module.exports = function () {
         var energy = spawn.room.energyCapacityAvailable;
 
         sourceObj = Game.getObjectById(sourceId);
-        const nearestSpawnToSource = sourceObj.pos.findClosestByRange(FIND_MY_SPAWNS);
+        // const nearestSpawnToSource = sourceObj.pos.findClosestByRange(FIND_MY_SPAWNS);
+        const nearestSpawnToSource = spawn;
 
         if (nearestSpawnToSource.room.name == "W9N34") {
             if (nearestSpawnToSource.spawning != null || nearestSpawnToSource.spawning != undefined) {
@@ -414,12 +415,15 @@ module.exports = function () {
         }
 
 
-        console.log('<font color = "green">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + ']  create Miner energy is ' + energy + '</>');
+        console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + spawn.room.name + ']  create Miner energy is ' + energy + '</>');
 
-        energy = 300;
-        if (spawn.room.name == "E43S3") {
-            energy = energy - 100;
+        var nergy = 300;
+
+        // energy = 1000;
+        if (spawn.room.name == "E26N3") {
+            energy = 1000;
         }
+
 
         console.log()
         // if (spawn.memory.EnergyManagement.minerEnergy != undefined) {

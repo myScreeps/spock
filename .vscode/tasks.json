@@ -6,6 +6,58 @@
 			"task": "clean",
 			"problemMatcher": [],
 			"label": "grunt: clean"
-		}
+		},
+		{
+			"type": "grunt",
+			"task": "default",
+			"problemMatcher": [],
+			"label": "grunt: default"
+		},
+		{
+			"label": "echo",
+			"type": "shell",
+			"command": "echo Hello World"
+		},
+		{
+			"label": "echo2",
+			"type": "shell",
+			"command": "echo Hello World2",
+			"problemMatcher": []
+		},
+		{
+			"label": "run grunt",
+			"type": "shell",
+			"command": "grunt",
+
+			"dependsOn": [
+				"SaveAllFiles"
+			  ],
+
+			  "dependsOrder": "sequence",   // need this, "parallel" is the default otherwise
+			  "problemMatcher": []
+
+		},
+
+		{
+            "command": "${command:workbench.action.files.saveAll}",
+            "label": "SaveAllFiles",
+            "type":"shell"
+        },
+
+        {
+
+			"type": "grunt",
+			"task": "default",
+			"label": "Execute Grunt",
+
+            "dependsOn": [
+                "SaveAllFiles"
+            ],
+            "problemMatcher": []
+        }
+
+
+
+
 	]
 }

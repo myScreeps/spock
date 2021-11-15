@@ -1,4 +1,6 @@
 //return;
+//Test
+// ${command:workbench.action.files.saveAll}
 /* #region  notes */
 
 
@@ -12,8 +14,8 @@
 // Room E26N3 level 7 reached Sat Feburary 12th 2021, 2:12am, Start tick 25419685
 // Room E26N3 Sat Feburary 2/27/21 6:00 PM 5.45 million Tick 25922387
 // Room E26N3 Sat Feburary 2/28/21 6:31 PM 6:30 PM 6 million Tick 25955143
-
 // Room E25N3 Claimed Friday April 16th 2021 11:48pm
+// Room E25N3 reached level  7 Saturday 5/22/21 7:16 AM Tick #28308329
 
 
 // test
@@ -29,6 +31,7 @@
 
 require('prototype.spawn')();
 require('prototype.creep')();
+require('prototype.room')();
 // var events = require('events');
 //const EventEmitter = require('events');
 require('Traveler');
@@ -43,6 +46,7 @@ var roleLongDistanceBuilder = require('role.longDistanceBuilder');
 var roleClaimer = require('role.claimer');
 var roleReserver = require('role.reserveController');
 var roleMiner = require('role.miner');
+var roleMinerSource2 = require('role.minerSource2');
 var roleLorry = require('role.lorry');
 var roleTestCreep = require('role.Test');
 var roleTerminalLorry = require('role.TerminalLorry');
@@ -153,6 +157,10 @@ var parameterflags = _.filter(flags, s => s.startsWith('Parameter'));
 // #GameLoop         GAME LOOP
 //***************************************** */
 module.exports.loop = function () {
+    console.log();
+    console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']============== The very start   (CPU Bucket: ' + util.numberWithCommas(Game.cpu.bucket) + ') ============== </>');
+    // return;
+
 
 
     // if (Memory.pauseAll == true) {
@@ -175,46 +183,69 @@ module.exports.loop = function () {
     // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(flag_Point) is ' + JSON.stringify(flag_Point) + '</>');
     /* #endregion TestCode */
 
+    // if (Memory.consoleFilter == undefined) {
+    //     Memory.consoleFilter = "Miner";
+    // }
+
+    // Memory.consoleFilter = "Repairer";
+
+    console.log('[' + fileName + 'line:' + util.LineNumber() + '] Memory.consoleFilter is ' + Memory.consoleFilter);
 
     //************************************** */
     // console override. Filter
     //************************************** */
+    try {
+        (function () {
+            // Save the original method in a private variable
+            var _privateLog = console.log;
+            // Redefine console.log method with a custom function
+            console.log = function (message, filter) {
+                // Here execute something with the given message or arguments variable
+                // alert("Our Custom Log Says: " + message);
+                // message = message;
 
-    (function () {
-        // Save the original method in a private variable
-        var _privateLog = console.log;
-        // Redefine console.log method with a custom function
-        console.log = function (message, filter) {
-            // Here execute something with the given message or arguments variable
-            // alert("Our Custom Log Says: " + message);
-            // message = message;
-
-            if (message == undefined) {
-                message = " ";
-            }
-
-            if (Memory.consoleFilter && message != undefined) {
-                if (!message.includes(Memory.consoleFilter)) {
-                    // message = "foo2";
-                    return;
-
+                if (message == undefined) {
+                    message = " ";
                 }
-            }
+
+                if (Memory.consoleFilter && message != undefined) {
+
+                    if (!message.toLowerCase().includes(Memory.consoleFilter.toLowerCase())) {
+                        // message = "foo2";
+                        return;
+                    }
+                }
 
 
-            //      console.log("test1");
+
+                // if (message != undefined) {
+                //     if (!message.includes("Miner")) {
+                //         // message = "foo2";
+                //         return;
+
+                //     }
+                // }
+
+                //      console.log("test1");
 
 
-            /**
-                Note: If you want to preserve the same action as the original method does
-                then use the following line :
+                /**
+                    Note: If you want to preserve the same action as the original method does
+                    then use the following line :
 
-                we use apply to invoke the method on console using the original arguments.
-                Simply calling _privateLog(message) would fail because LOG depends on the console
-               */
-            _privateLog.apply(console, arguments);
-        };
-    })();
+                    we use apply to invoke the method on console using the original arguments.
+                    Simply calling _privateLog(message) would fail because LOG depends on the console
+                   */
+                _privateLog.apply(console, arguments);
+            };
+        })();
+
+    } catch (error) {
+        console.log(error)
+    }
+
+
+
 
     //var flags = _.filter(Game.Flags, s => s.name.startsWith('T'));
     //var allFlags = Object.keys(Game.flags);
@@ -253,17 +284,146 @@ module.exports.loop = function () {
 
 
             //console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] JSON.stringify(invaderCore.effects[0]) is ' + JSON.stringify(invaderCore.effects[0]) + '</>');
+
+
+            // let firstSpawn = room.firstSpawn;
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + `] firstSpawn: ${firstSpawn}</>`);
+
+
+
+
+            roomParameterPoints = Memory.E25N3.roomParameter
+
+            var rampartE25N3x24y22 = Game.getObjectById("60b86f282fd8f704d3e7af17");
+            rampartE25N3x24y22.hits
+
+            // console.log('<font color = "greem">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] rampartE25N3x24y22.hits is ' + rampartE25N3x24y22.hits + '</>');
+            // console.log('<font color = "greem">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] Game.spawns.Spawn5.memory.maxRampartHits is ' + Game.spawns.Spawn5.memory.maxRampartHits + '</>');
+
+
+            // if (rampartE25N3x24y22.hits >= Game.spawns.Spawn5.memory.maxRampartHits) {
+            //     Game.spawns.Spawn5.memory.maxRampartHits = Game.spawns.Spawn5.memory.maxRampartHits + 25000;
+            // }
+
+            for (let index = 0; index < roomParameterPoints.length - 1; index++) {
+                const parameterPoint = roomParameterPoints[index];
+                var pos1 = new RoomPosition(roomParameterPoints[index][0], roomParameterPoints[index][1], room.name);
+                var pos2 = new RoomPosition(roomParameterPoints[index + 1][0], roomParameterPoints[index + 1][1], room.name);
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(pos1) is ' + JSON.stringify(pos1) + '</>');
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(pos2) is ' + JSON.stringify(pos2) + '</>');
+
+                new RoomVisual(room.name).line(pos1, pos2,
+                    { color: '#FFFF00', lineStyle: 'dotted' }
+                );
+            }
+            roomParameterPoints = Memory.E25N3.roomParameter
+
+            var pos1 = new RoomPosition(roomParameterPoints[0][0], roomParameterPoints[0][1], room.name);
+            new RoomVisual(room.name).line(pos2, pos1,
+                { color: '#FFFF00', lineStyle: 'dotted' }
+            );
+
+
+
+
+            Memory.E25N3.invadersCount = room.find(FIND_HOSTILE_CREEPS).length;
+            if (Memory.E25N3.invadersCount > 0) {
+                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] Memory.E25N3.invadersCount) is ' + Memory.E25N3.invadersCount + '</>');
+
+            }
+
             var invaderCores = room.find(FIND_STRUCTURES, { filter: s => s.structureType == "invaderCore" })
             var numberOfinvaderCores = invaderCores.length;
-            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] numberOfinvaderCores is ' + numberOfinvaderCores + '</>');
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] numberOfinvaderCores is ' + numberOfinvaderCores + '</>');
             if (numberOfinvaderCores > 0) {
                 var invaderCore = invaderCores[0];
                 var ticksRemaining = invaderCore.effects.ticksRemaining;
                 console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] invaderCore.effects is ' + invaderCore.effects[0].ticksRemaining + '</>');
             }
+
+
+            if (true) {
+                //  var spawn = Game.spawns.Spawn1;
+
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] 3Memory.E26N3.roomVisual  is ' + Memory.E26N3.roomVisual + '</>');
+                new RoomVisual(room.name).text(Game.cpu.bucket, 2, 1, { color: 'green', font: 0.8 });
+                // var container1 = Game.getObjectById("607aa27af913974828c07b7a");
+                // new RoomVisual(room.name).text("xcontainer1: " + container1.store[RESOURCE_ENERGY], 17, 17, { color: 'yellow', font: 0.6, align: 'left' });
+
+                // var container2 = Game.getObjectById("6003cfd2773fb20d53bdc34f");
+                // new RoomVisual(room.name).text("container2: " + container2.store[RESOURCE_ENERGY], 42, 20, { color: 'yellow', font: 0.6, align: 'left' });
+
+
+                var source1 = Game.getObjectById("5bbcae639099fc012e638ec1");
+                new RoomVisual(room.name).text("Source1: " + source1.energy + " / " + source1.ticksToRegeneration, 44, 34, { color: 'yellow', font: 0.6, align: 'left' });
+
+
+                // var source2 = Game.getObjectById("5bbcae719099fc012e6390f2");
+                // new RoomVisual(room.name).text("Source2: " + source2.energy + " / " + source2.ticksToRegeneration, 42, 21, { color: 'green', font: 0.6, align: 'left' });
+
+                // //  var roomController = Game.getObjectById("5bbcae719099fc012e6390f3");
+                // //   new RoomVisual(spawn.room.name).text("Controller: " + util.numberWithCommas(roomController.progress) + " / " + util.numberWithCommas(roomController.progressTotal), 26, 29, { color: 'green', font: 0.6, align: 'left' });
+
+                //  var minerEnergy = spawn.memory.EnergyManagement.minerEnergy;
+                //   new RoomVisual(room.name).text("Game.time: " + Game.time, 26, 31, { color: 'green', font: 0.6, align: 'left' });
+                //   var timeRemaining = 27300060 - Game.time // what is this?
+                //   new RoomVisual(room.name).text(" 27,300,060 - Game.time: " + timeRemaining, 26, 32, { color: 'green', font: 0.6, align: 'left' });
+
+
+                var storageEnergy = room.storage.store[RESOURCE_ENERGY];
+                var maxRampartsHits = Game.spawns.Spawn4.memory.maxRampartsHits;
+                var x = 40; var y = 31;
+                new RoomVisual(room.name).text("storageEnergy: " + storageEnergy, x, y, { color: 'yellow', font: 0.6, align: 'left' });
+                new RoomVisual(room.name).text("maxRampartsHits: " + maxRampartsHits, x, y + 1, { color: 'yellow', font: 0.6, align: 'left' });
+
+                new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
+                //  new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
+
+            }
+
+
+
         }
 
         if (room.name == "E26N3") {
+
+            var allRamparts = room.find(FIND_MY_STRUCTURES, STRUCTURE_RAMPART)
+            var allRamparts = room.find(FIND_MY_STRUCTURES, { filter: s => s.structureType == STRUCTURE_RAMPART && s.room.name == "E26N3" })
+
+            var allRampartsTotal = allRamparts.length;
+            new RoomVisual(room.name).text("maxRampartsHits: " + util.numberWithCommas(Game.spawns.Spawn1.memory.maxRampartsHits), 9, 36, { color: 'yellow', font: 0.6, align: 'left' });
+            var incrementRampart = false
+
+            if (Game.time % 10 == 0) {
+                for (let index = 0; index < allRamparts.length; index++) {
+                    const rampart = allRamparts[index];
+                    if (rampart.hits < Game.spawns.Spawn1.memory.maxRampartsHits) {
+                        incrementRampart = false;
+                        break;
+                    }
+                    else {
+                        if (room.storage.store.getFreeCapacity() == 0) {
+                            incrementRampart = true;
+                        }
+                    }
+                }
+
+
+                if (incrementRampart == true) {
+                    //      Game.spawns.Spawn1.memory.maxRampartsHits = Game.spawns.Spawn1.memory.maxRampartsHits + 5000;
+                    new RoomVisual(room.name).text("Game.spawns.Spawn1.memory.maxRampartsHits: " + Game.spawns.Spawn1.memory.maxRampartsHits, 9, 37, { color: 'yellow', font: 0.6, align: 'left' });
+
+                }
+
+            }
+
+
+            roomParameterPoints = Memory.E26N3.roomParameter
+            var _lab = util.findStructureAtFlag(undefined, "Lab_GO_E26N3", STRUCTURE_LAB);
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] _lab.store.getFreeCapacity() is ' + _lab.store.getFreeCapacity() + '</>');
+            if (_.sum(_lab.store) == 3000) {
+                Game.flags.Lab_GO_E26N3.setPosition(2, 22)
+            }
 
             for (let index = 0; index < roomParameterPoints.length - 1; index++) {
                 const parameterPoint = roomParameterPoints[index];
@@ -358,15 +518,16 @@ module.exports.loop = function () {
                 Memory.time.push(currentTimeTick);
             }
 
-
+            //  var fred = fooABC(x, y)
 
             //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] mydate.toLocaleTimeString(en-US, options)  is ' + mydate.toLocaleTimeString('en-US', options) + '</>');
 
 
             var tombstone = room.find(FIND_TOMBSTONES)[0]
+            tombstone == undefined; // Disabling the if statement below
             if (tombstone != undefined) {
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstone is ' + tombstone + '</>');
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstone.id is ' + tombstone.id + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstone is ' + tombstone + '</>');
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstone.id is ' + tombstone.id + '</>');
                 var myTombStone = {};
                 myTombStone.id = tombstone.id;
                 myTombStone.timeStamp = Date.now();
@@ -374,7 +535,7 @@ module.exports.loop = function () {
                 myTombStone.gameTime = Game.time;
                 Memory.E26N3.lastTombstone = myTombStone;
                 var hasId = myMemSet2.has(myTombStone.id);
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] hasId is ' + hasId + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] hasId is ' + hasId + '</>');
                 if (hasId == false) {
                     myMemSet2.add(myTombStone.id);
                     // myMemSet2.add(myTombStone.timeStamp);
@@ -423,29 +584,29 @@ module.exports.loop = function () {
             if (tombstone != undefined) {
 
                 const keysInStore = Object.keys(tombstone.store)
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] keysInStore is ' + keysInStore + '</>');
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(keysInStore) is ' + JSON.stringify(keysInStore) + '</>');
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] keysInStore is ' + keysInStore + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(keysInStore) is ' + JSON.stringify(keysInStore) + '</>');
 
 
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstone.id is ' + tombstone.id + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstone.id is ' + tombstone.id + '</>');
                 const tombstones = new Set()
                 tombstones.add(1);
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  tombstones.has(1) is ' + tombstones.has(1) + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  tombstones.has(1) is ' + tombstones.has(1) + '</>');
 
                 tombstones.add(2);
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  tombstones.has(2) is ' + tombstones.has(2) + '</>');
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  tombstones.has(99) is ' + tombstones.has(99) + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  tombstones.has(2) is ' + tombstones.has(2) + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  tombstones.has(99) is ' + tombstones.has(99) + '</>');
 
                 tombstones.add('test');
 
                 tombstones.add(tombstone.id)
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  tombstones.has(tombstone.id)  is ' + tombstones.has(tombstone.id) + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']  tombstones.has(tombstone.id)  is ' + tombstones.has(tombstone.id) + '</>');
 
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(tombstones) is ' + JSON.stringify(tombstones) + '</>');
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstones is ' + tombstones + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] JSON.stringify(tombstones) is ' + JSON.stringify(tombstones) + '</>');
+                //  console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] tombstones is ' + tombstones + '</>');
                 Game.spawns.Spawn1.memory.myset = tombstones;
                 const mySet = Game.spawns.Spawn1.memory.myset
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] mySet.has(1) is ' + mySet.has(1) + '</>');
+                //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] mySet.has(1) is ' + mySet.has(1) + '</>');
 
                 //  Memory.E26N3.tombstones = tombstones;
                 // var check = Memory.E26N3.tombstones.has(tombstone);
@@ -500,33 +661,33 @@ module.exports.loop = function () {
             if (true) {
                 //  var spawn = Game.spawns.Spawn1;
 
-                console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] 3Memory.E26N3.roomVisual  is ' + Memory.E26N3.roomVisual + '</>');
+                // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] 3Memory.E26N3.roomVisual  is ' + Memory.E26N3.roomVisual + '</>');
                 new RoomVisual(room.name).text(Game.cpu.bucket, 2, 1, { color: 'green', font: 0.8 });
                 var container1 = Game.getObjectById("6003bbfaf44a12affc149d5c");
-                new RoomVisual(room.name).text("container1: " + container1.store[RESOURCE_ENERGY], 17, 17, { color: 'green', font: 0.6, align: 'left' });
+                new RoomVisual(room.name).text("container1: " + container1.store[RESOURCE_ENERGY], 17, 17, { color: 'yellow', font: 0.6, align: 'left' });
 
                 var container2 = Game.getObjectById("6003cfd2773fb20d53bdc34f");
-                new RoomVisual(room.name).text("container2: " + container2.store[RESOURCE_ENERGY], 42, 20, { color: 'green', font: 0.6, align: 'left' });
+                new RoomVisual(room.name).text("container2: " + container2.store[RESOURCE_ENERGY], 42, 20, { color: 'yellow', font: 0.6, align: 'left' });
 
 
                 var source1 = Game.getObjectById("5bbcae719099fc012e6390f1");
-                new RoomVisual(room.name).text("Source1: " + source1.energy + " / " + source1.ticksToRegeneration, 16, 16, { color: 'green', font: 0.6, align: 'left' });
+                new RoomVisual(room.name).text("Source1: " + source1.energy + " / " + source1.ticksToRegeneration, 16, 16, { color: 'yellow', font: 0.6, align: 'left' });
 
 
                 var source2 = Game.getObjectById("5bbcae719099fc012e6390f2");
-                new RoomVisual(room.name).text("Source2: " + source2.energy + " / " + source2.ticksToRegeneration, 42, 21, { color: 'green', font: 0.6, align: 'left' });
+                new RoomVisual(room.name).text("Source2: " + source2.energy + " / " + source2.ticksToRegeneration, 42, 21, { color: 'yellow', font: 0.6, align: 'left' });
 
                 // //  var roomController = Game.getObjectById("5bbcae719099fc012e6390f3");
                 // //   new RoomVisual(spawn.room.name).text("Controller: " + util.numberWithCommas(roomController.progress) + " / " + util.numberWithCommas(roomController.progressTotal), 26, 29, { color: 'green', font: 0.6, align: 'left' });
 
                 //  var minerEnergy = spawn.memory.EnergyManagement.minerEnergy;
-                new RoomVisual(room.name).text("Game.time: " + Game.time, 26, 31, { color: 'green', font: 0.6, align: 'left' });
+                new RoomVisual(room.name).text("Game.time: " + Game.time, 26, 31, { color: 'yellow', font: 0.6, align: 'left' });
                 var timeRemaining = 27300060 - Game.time
-                new RoomVisual(room.name).text(" 27,300,060 - Game.time: " + timeRemaining, 26, 32, { color: 'green', font: 0.6, align: 'left' });
+                new RoomVisual(room.name).text(" 27,300,060 - Game.time: " + timeRemaining, 26, 32, { color: 'yellow', font: 0.6, align: 'left' });
 
 
                 var storageEnergy = room.storage.store[RESOURCE_ENERGY];
-                new RoomVisual(room.name).text("storageEnergy: " + storageEnergy, 7, 14, { color: 'green', font: 0.6, align: 'left' });
+                new RoomVisual(room.name).text("storageEnergy: " + storageEnergy, 7, 14, { color: 'yellow', font: 0.6, align: 'left' });
 
                 new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
                 //  new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
@@ -537,56 +698,6 @@ module.exports.loop = function () {
         }
 
 
-        if (room.name == "E25N3") {
-            var observer = room.find(FIND_MY_STRUCTURES, { filter: s => s.structureType == STRUCTURE_OBSERVER })[0]
-
-            var tombstone = room.find(FIND_TOMBSTONES)[0];
-
-
-
-
-
-
-            if (true) {
-                //  var spawn = Game.spawns.Spawn1;
-
-                //   console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room[' + room.name + '] 3Memory.E26N3.roomVisual  is ' + Memory.E26N3.roomVisual + '</>');
-                new RoomVisual(room.name).text(Game.cpu.bucket, 2, 1, { color: 'green', font: 0.8 });
-                var container1 = Game.getObjectById("607aa27af913974828c07b7a");
-                new RoomVisual(room.name).text("container1: " + container1.store[RESOURCE_ENERGY], 42, 34, { color: 'green', font: 0.6, align: 'left' });
-
-                // var container2 = Game.getObjectById("6003cfd2773fb20d53bdc34f");
-                // new RoomVisual(room.name).text("container2: " + container2.store[RESOURCE_ENERGY], 42, 20, { color: 'green', font: 0.6, align: 'left' });
-
-
-                var source1 = Game.getObjectById("5bbcae639099fc012e638ec1");
-                new RoomVisual(room.name).text("Source1: " + source1.energy + " / " + source1.ticksToRegeneration, 42, 33, { color: 'green', font: 0.6, align: 'left' });
-
-
-                // var source2 = Game.getObjectById("5bbcae719099fc012e6390f2");
-                // new RoomVisual(room.name).text("Source2: " + source2.energy + " / " + source2.ticksToRegeneration, 42, 21, { color: 'green', font: 0.6, align: 'left' });
-
-                var roomController = Game.getObjectById("5bbcae639099fc012e638ec0");
-                new RoomVisual(room.name).text("Controller: " + util.numberWithCommas(roomController.progress) + " / " + util.numberWithCommas(roomController.progressTotal), 27, 19, { color: 'yellow', font: 0.6, align: 'left' });
-
-                //  var minerEnergy = spawn.memory.EnergyManagement.minerEnergy;
-                new RoomVisual(room.name).text("Game.time: " + Game.time, 26, 31, { color: 'green', font: 0.6, align: 'left' });
-                var timeRemaining = 27300060 - Game.time
-                //  new RoomVisual(room.name).text(" 27,300,060 - Game.time: " + timeRemaining, 26, 32, { color: 'green', font: 0.6, align: 'left' });
-
-
-                if (room.storage != undefined) {
-                    var storageEnergy = room.storage.store[RESOURCE_ENERGY];
-                    new RoomVisual(room.name).text("storageEnergy: " + storageEnergy, 7, 14, { color: 'green', font: 0.6, align: 'left' });
-                }
-
-                new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
-                //  new RoomVisual(room.name).text("Game.time: " + Game.time, 2, 7, { color: 'Yellow', font: 0.6, align: 'left' });
-
-            }
-
-
-        }
 
         //    console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] roomName is ' + roomName + '</>');
         //    console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] room.name is ' + room.name + '</>');
@@ -1160,6 +1271,71 @@ module.exports.loop = function () {
         }
 
 
+
+
+        if (spawn.room.name == "E25N3") {
+
+            // if (Game.spawns.Spawn1.room.storage.store.getUsedCapacity(RESOURCE_ENERGY) < 924000 || Game.spawns.Spawn1.room.terminal.store.getUsedCapacity(RESOURCE_ENERGY) < 200000) {
+            //     Game.spawns.Spawn1.memory.minWallRepairers = 0;
+            // }
+
+            // if (Game.spawns.Spawn1.room.storage.store.getFreeCapacity(RESOURCE_ENERGY) == 0 && Game.spawns.Spawn1.room.terminal.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
+            //     Game.spawns.Spawn1.memory.minWallRepairers = 2;
+            // }
+
+            // var buildparts = Game.spawns.Spawn2.memory.EnergyManagement.upgrader2xBuildParts;
+            // var numberOfBuildParts = buildparts.length
+
+
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] numberOfBuildParts is ' + numberOfBuildParts + '</>');
+
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] WORK is ' + WORK + '</>');
+            // console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] buildparts is ' + buildparts + '</>');
+            // //console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] Game.spawns.Spawn2.Memory.EnergyManagement is ' + JSON.stringify(Game.spawns.Spawn2.memory.EnergyManagement) + '</>');
+
+            // var link1Flag = Game.flags.Link1_E26N3;
+            // var link2Flag = Game.flags.Link2_E26N3;
+            // var ControllerLinkFlag = Game.flags.Controler_Link_E26N3;
+
+            var controlerLinkObjId = "60b8511dee794132aa7fb6ac"; // E25E3
+            //  var sourceLinkObjId = "60b8511dee794132aa7fb6ac"; // E26E3 39,20
+            var storageLinkId = "60b8544873c93a43eeab1fd9"; // E25E3
+
+            var controllerLink = Game.getObjectById(controlerLinkObjId);
+            var transferStatusToController;
+            if (controllerLink.store.getFreeCapacity(RESOURCE_ENERGY) >= 200) {
+                transferStatusToController = link.transferEnergy(storageLinkId, controlerLinkObjId);
+                //     console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] TransferToConrollerLink status is ' + transferStatusToController + '</ > ');
+
+            }
+
+            // terminal to terminal transfer
+
+            termE25N3 = Game.getObjectById("60b835666e2dfdf952d0996f");
+            termE26N3 = Game.getObjectById("6019490beb075691ad956450");
+
+            if (Game.time % 75 == 0) {
+                //  termE26N3.send(RESOURCE_ENERGY, 375, "E25N3");
+                termE26N3.send(RESOURCE_ENERGY, 500, "E25N3");
+            }
+            if (termE25N3.store.getUsedCapacity(RESOURCE_ENERGY) == 0) {
+                //  termE26N3.send(RESOURCE_ENERGY, 100, "E25N3");
+            }
+
+
+
+
+
+
+            //            console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + '] TransferToConrollerLink status is ' + transferStatusToController + '</ > ');
+            // else {
+            //     transferStatusToController = link.transferEnergy(sourceLinkObjId, storageLinkId);
+            // }
+            //var transferStatusToController = link.transferEnergy(sourceLinkObjId, storageLinkId);
+        }
+
+
+
         // if (spawn.room.name == "W8N36x") {
         //     //    var spawn2
         //     if ((spawn.room.controller.ticksToDowngrade < 170000)) {
@@ -1441,7 +1617,7 @@ module.exports.loop = function () {
         var energy = spawn.room.energyCapacityAvailable;
         //#energy
         //var energy = 800;
-        var energy = 600;
+        var energy = 660;
         //       energy = EnergyManagement.room
 
 
@@ -1492,6 +1668,7 @@ module.exports.loop = function () {
         if (Game.spawns.Spawn1.memory.createMiner == true) {
             name = Game.spawns.Spawn1.createMiner(Game.spawns.Spawn1, "5bbcae639099fc012e638ec1");
             console.log('[' + fileName + 'line:' + util.LineNumber() + '] name is ' + name);
+            Game.spawns.Spawn1.memory.createMiner = false
 
         }
 
@@ -2387,26 +2564,31 @@ module.exports.loop = function () {
 
         // print name to console if spawning was a success
         // name > 0 would not work since string > 0 returns false
-        if (typeof (name) == "string") {
-            console.log("[line " + util.LineNumber() + "] Name Check: " + name);
-            console.log(spawnName + " spawned new creep: " + name + " (" + Game.creeps[name].memory.role + ")");
-            console.log("Harvesters    : " + numberOfHarvesters);
-            console.log("Upgraders     : " + numberOfUpgraders);
-            console.log("Builders      : " + numberOfBuilders);
-            console.log("Repairers     : " + numberOfRepairers);
-            console.log("WallRepairers : " + numberOfWallRepairers);
-            console.log("Miners        : " + numberOfMiners);
-            console.log("Lorries       : " + numberOfLorries);
-            console.log("LDH room1     : " + numberOfLongDistanceHarvestersroom1);
-            console.log("LDH room2     : " + numberOfLongDistanceHarvestersroom2);
-            console.log("LDH room3     : " + numberOfLongDistanceHarvestersroom3);
+        // if (typeof (name) == "string") {
+        //     console.log("[line " + util.LineNumber() + "] Name Check: " + name);
+        //     console.log(spawnName + " spawned new creep: " + name + " (" + Game.creeps[name].memory.role + ")");
+        //     console.log("Harvesters    : " + numberOfHarvesters);
+        //     console.log("Upgraders     : " + numberOfUpgraders);
+        //     console.log("Builders      : " + numberOfBuilders);
+        //     console.log("Repairers     : " + numberOfRepairers);
+        //     console.log("WallRepairers : " + numberOfWallRepairers);
+        //     console.log("Miners        : " + numberOfMiners);
+        //     console.log("Lorries       : " + numberOfLorries);
+        //     console.log("LDH room1     : " + numberOfLongDistanceHarvestersroom1);
+        //     console.log("LDH room2     : " + numberOfLongDistanceHarvestersroom2);
+        //     console.log("LDH room3     : " + numberOfLongDistanceHarvestersroom3);
 
-        }
+        // }
 
         //   console.log('end loop1');
     }
 
     /* #endregion */
+
+    //test asdss
+    // console.log();
+    console.log('<font color = "yellow">[' + fileName + 'line:' + util.LineNumber() + ']============== The very end     (CPU Bucket: ' + util.numberWithCommas(Game.cpu.bucket) + ') ============== </>');
+    // return;
 
 };
 
